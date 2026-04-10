@@ -18,5 +18,4 @@ Each topic lives in two places. The Python file in the subject folder is where I
 
 ## Sources
 
-- 3Blue1Brown, *Essence of Linear Algebra* — https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab
-- Gilbert Strang, *Introduction to Linear Algebra*
+- 3Blue1Brown: https://www.3blue1brown.com/
