@@ -1,0 +1,532 @@
+/* ─────────────────────────────────────────────
+   ML Math Foundations Wiki — Global Styles
+   Font: Computer Modern (via dreampulse CDN)
+   ───────────────────────────────────────────── */
+
+/* ── Reset ──────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Tokens ──────────────────────────────────── */
+:root {
+  --bg:          #000000;
+  --bg-sidebar:  #0d0d0d;
+  --bg-card:     #111111;
+  --bg-code:     #080808;
+  --border:      #252525;
+  --text:        #e8e8e8;
+  --text-muted:  #888888;
+  --text-dim:    #444444;
+  --accent:      #ffffff;
+  --accent-soft: #666666;
+  --accent-glow: rgba(255,255,255,0.04);
+  --green:       #aaaaaa;
+  --sidebar-w:   260px;
+  --radius:      6px;
+  --font-body:   "Computer Modern", "CMU Serif", Georgia, serif;
+  --font-mono:   "CMU Typewriter Text", "Courier New", monospace;
+}
+
+/* ── Base ────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.7;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Sidebar ─────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 2rem 0;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  padding: 1.6rem 1.4rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-logo a {
+  text-decoration: none;
+  color: var(--text);
+  display: block;
+}
+
+.sidebar-logo .site-title {
+  font-size: 1rem;
+  font-weight: normal;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+  line-height: 1.3;
+}
+
+.sidebar-logo .site-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sidebar nav { padding: 1rem 0; }
+
+.nav-section {
+  padding: 0.6rem 1.4rem 0.2rem;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  font-family: var(--font-body);
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar nav ul li a {
+  display: block;
+  padding: 0.38rem 1.4rem 0.38rem 1.8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: color 0.15s, background 0.15s;
+  border-left: 2px solid transparent;
+}
+
+.sidebar nav ul li a:hover {
+  color: var(--text);
+  background: var(--accent-glow);
+}
+
+.sidebar nav ul li a.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.sidebar nav ul li a.coming-soon {
+  color: var(--text-dim);
+  font-style: italic;
+  cursor: default;
+}
+
+/* top-level nav links (Home) */
+.sidebar nav > ul > li > a {
+  padding-left: 1.4rem;
+}
+
+/* ── Main content ────────────────────────────── */
+.main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  max-width: 1200px;
+  padding: 3.5rem 3rem 6rem;
+}
+
+/* ── Page header ─────────────────────────────── */
+.page-header {
+  margin-bottom: 3rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.breadcrumb {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.04em;
+}
+
+.breadcrumb a { color: var(--text-muted); text-decoration: none; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb span { margin: 0 0.4rem; }
+
+.page-header h1 {
+  font-size: 2.2rem;
+  font-weight: normal;
+  color: var(--text);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.page-header .subtitle {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.page-meta {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 2rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.tag-section { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+.tag-lesson  { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+
+/* ── Section blocks ──────────────────────────── */
+.section {
+  margin-bottom: 3rem;
+}
+
+.section-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+}
+
+.section h2 {
+  font-size: 1.35rem;
+  font-weight: normal;
+  color: var(--text);
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.section h3 {
+  font-size: 1.05rem;
+  font-weight: normal;
+  color: var(--text);
+  margin: 1.4rem 0 0.5rem;
+}
+
+.section p { margin-bottom: 0.9rem; color: var(--text); }
+
+/* ── Key idea callout ────────────────────────── */
+.callout {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0;
+  font-style: italic;
+  color: var(--text);
+}
+
+.callout strong { font-style: normal; color: var(--text); }
+
+/* ── Formula cards ───────────────────────────── */
+.formula-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+
+.formula-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+}
+
+.formula-card .formula-name {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.formula-card .formula-math {
+  font-size: 1rem;
+  color: var(--text);
+  overflow-x: auto;
+}
+
+/* ── Code blocks ─────────────────────────────── */
+.code-block {
+  margin: 1.2rem 0;
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0c0c0c;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 0.45rem 1rem;
+}
+
+.code-lang {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+.code-title {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+pre {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 1.2rem 1.4rem;
+  overflow-x: auto;
+  margin: 0;
+}
+
+pre code {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  line-height: 1.65;
+  color: #d0d0d0;
+}
+
+/* simple syntax shading — grayscale only */
+.kw  { color: #ffffff; }                        /* keywords */
+.cm  { color: #555555; font-style: italic; }    /* comments */
+.st  { color: #bbbbbb; }                        /* strings */
+.num { color: #cccccc; }                        /* numbers */
+.fn  { color: #e8e8e8; }                        /* functions */
+.op  { color: #aaaaaa; }                        /* operators */
+
+/* ── AI Connection box ───────────────────────── */
+.ai-connection {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.4rem 1.6rem;
+  margin-top: 1rem;
+}
+
+.ai-connection .ai-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  margin-bottom: 0.7rem;
+}
+
+.ai-connection p { margin-bottom: 0.6rem; font-size: 0.95rem; }
+.ai-connection p:last-child { margin-bottom: 0; }
+
+.analogy-code {
+  display: inline-block;
+  background: rgba(255,255,255,0.05);
+  border-radius: 3px;
+  padding: 0.1rem 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.83rem;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+/* ── Home page ───────────────────────────────── */
+.home-hero {
+  padding: 1rem 0 2.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2.5rem;
+}
+
+.home-hero h1 {
+  font-size: 2.4rem;
+  font-weight: normal;
+  line-height: 1.2;
+  margin-bottom: 0.8rem;
+}
+
+.home-hero p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  max-width: 560px;
+  font-style: italic;
+}
+
+.section-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.section-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.3rem;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
+  display: block;
+}
+
+.section-card:hover {
+  border-color: var(--accent-soft);
+  background: var(--accent-glow);
+}
+
+.section-card .card-icon {
+  font-size: 1.4rem;
+  margin-bottom: 0.6rem;
+  line-height: 1;
+}
+
+.section-card .card-title {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+
+.section-card .card-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.section-card .card-count {
+  margin-top: 0.7rem;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── Lesson list ─────────────────────────────── */
+.lesson-list { list-style: none; padding: 0; margin-top: 0.5rem; }
+.lesson-list li {
+  border-bottom: 1px solid var(--border);
+}
+.lesson-list li:last-child { border-bottom: none; }
+.lesson-list li a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  padding: 0.75rem 0;
+  text-decoration: none;
+  color: var(--text);
+  transition: color 0.15s;
+}
+.lesson-list li a:hover { color: var(--accent); }
+.lesson-list .lesson-num {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  min-width: 2.2rem;
+}
+.lesson-list .lesson-title { font-size: 0.95rem; }
+.lesson-list .lesson-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-left: auto;
+}
+
+/* ── Footer ──────────────────────────────────── */
+.page-footer {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+/* ── GitHub button ───────────────────────────── */
+.github-btn {
+  position: fixed;
+  top: 1.1rem;
+  right: 1.4rem;
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  text-decoration: none;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.github-btn:hover {
+  border-color: var(--text-muted);
+  color: var(--text);
+}
+
+.github-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* ── Scrollbar ───────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-soft); }
+
+/* ── Responsive ──────────────────────────────── */
+@media (max-width: 800px) {
+  .sidebar { transform: translateX(-100%); transition: transform 0.2s; }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; padding: 2rem 1.4rem 4rem; }
+
+  .menu-btn {
+    display: flex;
+    position: fixed;
+    top: 1rem; left: 1rem;
+    z-index: 200;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .menu-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--text-muted);
+    border-radius: 1px;
+  }
+
+  .formula-grid { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 801px) {
+  .menu-btn { display: none; }
+}

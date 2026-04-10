@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ML Math Foundations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ── GitHub link ────────────────────────────────── -->
+<a href="https://github.com/aarush6848ddh/ml-math-foundations" target="_blank" rel="noopener" class="github-btn">
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  GitHub
+</a>
+
+<!-- ── Mobile menu button ─────────────────────────── -->
+<button id="menu-btn" class="menu-btn" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ── Sidebar ────────────────────────────────────── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-logo">
+    <a href="index.html">
+      <div class="site-title">ML Math Foundations</div>
+      <div class="site-sub">A personal study wiki</div>
+    </a>
+  </div>
+
+  <nav>
+    <!-- Top-level -->
+    <ul>
+      <li><a href="index.html">Home</a></li>
+    </ul>
+
+    <!-- Linear Algebra -->
+    <div class="nav-section">Linear Algebra</div>
+    <ul>
+      <li><a href="linear-algebra/vectors.html">Lesson 1: Vectors</a></li>
+      <!-- ADD NEW LINEAR ALGEBRA LESSONS HERE -->
+      <!-- <li><a href="linear-algebra/linear-transformations.html">Lesson 2: Linear Transformations</a></li> -->
+    </ul>
+
+    <!-- Calculus -->
+    <div class="nav-section">Calculus</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+      <!-- ADD CALCULUS LESSONS HERE -->
+    </ul>
+
+    <!-- Probability & Statistics -->
+    <div class="nav-section">Probability &amp; Stats</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+      <!-- ADD PROBABILITY LESSONS HERE -->
+    </ul>
+  </nav>
+</aside>
+
+<!-- ── Main content ───────────────────────────────── -->
+<main class="main">
+
+  <div class="home-hero">
+    <h1>ML Math Foundations</h1>
+    <p>
+      Notes and code from my journey learning the mathematics behind
+      machine learning, following 3Blue1Brown, Gilbert Strang, and others.
+    </p>
+  </div>
+
+  <!-- Sections overview -->
+  <div class="section">
+    <div class="section-label">Curriculum</div>
+    <div class="section-cards">
+
+      <a href="linear-algebra/vectors.html" class="section-card">
+        <div class="card-icon">⟨ · ⟩</div>
+        <div class="card-title">Linear Algebra</div>
+        <div class="card-desc">Vectors, matrices, transformations, eigenvectors. The language of neural networks.</div>
+        <div class="card-count">1 lesson</div>
+      </a>
+
+      <div class="section-card" style="opacity:0.45; cursor:default;">
+        <div class="card-icon">∂</div>
+        <div class="card-title">Calculus</div>
+        <div class="card-desc">Derivatives, gradients, and the chain rule. How models learn via backpropagation.</div>
+        <div class="card-count">Coming soon</div>
+      </div>
+
+      <div class="section-card" style="opacity:0.45; cursor:default;">
+        <div class="card-icon">𝑃</div>
+        <div class="card-title">Probability &amp; Stats</div>
+        <div class="card-desc">Distributions, Bayes' theorem, and maximum likelihood. Foundations of uncertainty in AI.</div>
+        <div class="card-count">Coming soon</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Linear Algebra lessons -->
+  <div class="section">
+    <div class="section-label">Linear Algebra</div>
+    <h2>Lessons</h2>
+    <ul class="lesson-list">
+      <li>
+        <a href="linear-algebra/vectors.html">
+          <span class="lesson-num">01</span>
+          <span class="lesson-title">Vectors</span>
+          <span class="lesson-sub">What is a vector? Operations, geometry, and word embeddings.</span>
+        </a>
+      </li>
+      <!-- ─────────────────────────────────────────────────────────────────
+           HOW TO ADD A NEW LESSON:
+           1. Copy the <li> block above.
+           2. Update the href, lesson-num, lesson-title, and lesson-sub.
+           3. Create the corresponding HTML file in linear-algebra/.
+           4. Copy vectors.html as a template and fill in your content.
+           5. Add a <li> to the sidebar nav above in the same pattern.
+           ───────────────────────────────────────────────────────────────── -->
+    </ul>
+  </div>
+
+  <footer class="page-footer">
+    Built with plain HTML &amp; CSS · Computer Modern typeface · MathJax rendering
+  </footer>
+
+</main>
+
+<script src="js/main.js"></script>
+</body>
+</html>

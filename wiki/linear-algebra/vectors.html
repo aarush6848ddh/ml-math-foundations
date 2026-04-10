@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1: Vectors | ML Math Foundations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<!-- ── GitHub link ────────────────────────────────── -->
+<a href="https://github.com/aarush6848ddh/ml-math-foundations" target="_blank" rel="noopener" class="github-btn">
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  GitHub
+</a>
+
+<!-- ── Mobile menu button ─────────────────────────── -->
+<button id="menu-btn" class="menu-btn" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ── Sidebar ────────────────────────────────────── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-logo">
+    <a href="../index.html">
+      <div class="site-title">ML Math Foundations</div>
+      <div class="site-sub">A personal study wiki</div>
+    </a>
+  </div>
+
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+    </ul>
+
+    <div class="nav-section">Linear Algebra</div>
+    <ul>
+      <li><a href="vectors.html" class="active">Lesson 1: Vectors</a></li>
+      <!-- ADD NEW LINEAR ALGEBRA LESSONS HERE -->
+    </ul>
+
+    <div class="nav-section">Calculus</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+    </ul>
+
+    <div class="nav-section">Probability &amp; Stats</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- ── Main content ───────────────────────────────── -->
+<main class="main">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span>›</span>
+      <a href="../index.html">Linear Algebra</a>
+      <span>›</span>
+      Vectors
+    </div>
+    <h1>Vectors</h1>
+    <div class="subtitle">From 3Blue1Brown, Essence of Linear Algebra, Chapter 1</div>
+    <div class="page-meta">
+      <span class="tag tag-section">Linear Algebra</span>
+      <span class="tag tag-lesson">Lesson 01</span>
+    </div>
+  </div>
+
+
+  <!-- ── 1. Concept in Plain English ───────────────── -->
+  <div class="section">
+    <div class="section-label">Concept</div>
+    <h2>What is a Vector?</h2>
+
+    <p>
+      There are three ways to think about a vector, depending on who is in the room:
+    </p>
+
+    <div class="callout">
+      <strong>Physics student:</strong> A vector is an arrow in space with a length and a direction.
+      You can move it anywhere and it stays the same vector.
+    </div>
+
+    <div class="callout">
+      <strong>CS student:</strong> A vector is an ordered list of numbers,
+      <em>coordinates</em> that describe a point relative to some origin.
+    </div>
+
+    <div class="callout">
+      <strong>3Blue1Brown's view:</strong> Think geometrically first, then let the numbers follow.
+      Every list of numbers corresponds to an arrow rooted at the origin.
+    </div>
+
+    <h3>The coordinate picture</h3>
+    <p>
+      In 2D, a vector like \(\mathbf{v} = \begin{bmatrix} 3 \\ -2 \end{bmatrix}\) means:
+      "walk 3 units right, then 2 units down." The tip of that arrow is the vector.
+      In \(n\) dimensions, a vector is just an ordered list of \(n\) numbers.
+    </p>
+
+    <h3>Two fundamental operations</h3>
+    <p>
+      Everything in linear algebra is built from just two operations:
+      <strong>vector addition</strong> and <strong>scalar multiplication</strong>.
+    </p>
+
+    <p>
+      <strong>Addition:</strong> place two arrows tip-to-tail. The result is a new arrow
+      from the origin to the final tip. Numerically, add component by component.
+    </p>
+
+    <p>
+      <strong>Scalar multiplication:</strong> stretching, shrinking, or flipping an arrow.
+      Multiplying by 2 doubles the length. Multiplying by −1 reverses direction.
+      Multiplying by a number between 0 and 1 squishes it.
+    </p>
+  </div>
+
+
+  <!-- ── 2. Key Formulas ────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Formulas</div>
+    <h2>Key Formulas</h2>
+
+    <div class="formula-grid">
+
+      <div class="formula-card">
+        <div class="formula-name">Vector notation</div>
+        <div class="formula-math">
+          \[ \mathbf{v} = \begin{bmatrix} v_1 \\ v_2 \\ \vdots \\ v_n \end{bmatrix} \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Vector addition</div>
+        <div class="formula-math">
+          \[ \mathbf{a} + \mathbf{b} = \begin{bmatrix} a_1 + b_1 \\ a_2 + b_2 \\ \vdots \end{bmatrix} \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Scalar multiplication</div>
+        <div class="formula-math">
+          \[ c \cdot \mathbf{v} = \begin{bmatrix} c \, v_1 \\ c \, v_2 \\ \vdots \end{bmatrix} \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Vector subtraction</div>
+        <div class="formula-math">
+          \[ \mathbf{a} - \mathbf{b} = \mathbf{a} + (-1)\mathbf{b} \]
+        </div>
+      </div>
+
+    </div>
+
+    <p style="margin-top:1rem;">
+      Scalar multiplication distributes over addition:
+      \( c(\mathbf{a} + \mathbf{b}) = c\mathbf{a} + c\mathbf{b} \).
+      This property, <em>linearity</em>, is what gives linear algebra its name.
+    </p>
+  </div>
+
+
+  <!-- ── 3. Code Examples ───────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Code</div>
+    <h2>Code Examples</h2>
+    <p>
+      All code below is taken verbatim from <code style="font-family:var(--font-mono);font-size:0.85em;">lesson-01-vectors.py</code>.
+      NumPy represents vectors as 1D arrays and applies all operations element-wise.
+    </p>
+
+    <!-- Part 1: Setup -->
+    <h3>Setting up word embeddings as vectors</h3>
+    <p>
+      We model each word as a NumPy array. The four numbers in each array are its
+      coordinates in a 4-dimensional embedding space. In real models these arrays
+      have hundreds or thousands of dimensions, but the idea is identical.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-01-vectors.py</span>
+      </div>
+      <pre><code><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># A word embedding in AI is a vector that represents the meaning of a word.</span>
+<span class="cm"># For example, the word "king" might be represented as a vector in a high-dimensional</span>
+<span class="cm"># space, where each dimension corresponds to a different aspect of the word's</span>
+
+<span class="cm"># Pretend these are simplified embeddings for the words "king", "queen</span>
+<span class="cm"># Vectors from a Computer Science students view can be seen as an ordered list of numbers</span>
+king <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">2.1</span>, <span class="num">0.3</span>, <span class="num">-1.2</span>, <span class="num">0.8</span>])
+queen <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1.9</span>, <span class="num">0.5</span>, <span class="num">-1.1</span>, <span class="num">0.9</span>])</code></pre>
+    </div>
+
+    <!-- Part 2: Vector addition -->
+    <h3>Vector addition</h3>
+    <p>
+      Adding two vectors means adding each pair of components. Geometrically, place the
+      second arrow at the tip of the first. The result is the arrow from the origin to
+      the new tip. Here it produces a vector that blends the meaning of both words.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-01-vectors.py</span>
+      </div>
+      <pre><code><span class="cm"># We can perform vector operations to find relationships between words.</span>
+
+<span class="cm"># For example, we can add the vectors for "king" and "queen" to find a new vector</span>
+<span class="cm"># that represents the concept of royalty.</span>
+result <span class="op">=</span> king <span class="op">+</span> queen
+
+<span class="cm"># The result can be interpreted as a new vector that captures the combined</span>
+<span class="cm"># meaning of "king" and "queen". For example: Royalty.</span>
+<span class="fn">print</span>(result)</code></pre>
+    </div>
+
+    <!-- Part 3: Scalar multiplication -->
+    <h3>Scalar multiplication</h3>
+    <p>
+      Multiplying a vector by a number scales the length of the arrow without changing
+      its direction (unless the number is negative, which flips it). A scalar above 1
+      amplifies the concept; a scalar between 0 and 1 weakens it; -1 reverses it.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-01-vectors.py</span>
+      </div>
+      <pre><code><span class="cm"># We can also scale the vector for "king" by multiplying it by a scalar to find a new vector</span>
+<span class="cm"># that represents a stronger or weaker version of the concept. For example: Stronger Royalty or Weaker Royalty.</span>
+scaled_up <span class="op">=</span> <span class="num">1.5</span> <span class="op">*</span> king
+flipped <span class="op">=</span> <span class="num">-1</span> <span class="op">*</span> king
+
+<span class="fn">print</span>(<span class="st">"scaled_up:"</span>, scaled_up)
+<span class="fn">print</span>(<span class="st">"flipped:"</span>, flipped)</code></pre>
+    </div>
+
+    <!-- Part 4: Vector subtraction -->
+    <h3>Vector subtraction</h3>
+    <p>
+      Subtracting one vector from another gives the arrow pointing from the tip of the
+      second to the tip of the first. In embedding space, this captures the
+      <em>direction</em> that separates two concepts. Here, the gender direction between
+      king and queen.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-01-vectors.py</span>
+      </div>
+      <pre><code><span class="cm"># We can also find the difference between the vectors for "king" and "queen" to find a new vector</span>
+<span class="cm"># that represents the relationship between the two words. For example: Gender Difference.</span>
+difference <span class="op">=</span> king <span class="op">-</span> queen
+
+<span class="cm"># This new vector can be interpreted as capturing the concept of genders.</span>
+<span class="fn">print</span>(<span class="st">"difference:"</span>, difference)</code></pre>
+    </div>
+
+    <!-- Part 5: The analogy -->
+    <h3>The famous word embedding analogy</h3>
+    <p>
+      Take the direction that separates "man" from "woman" and apply it to "king". The
+      result lands very close to "queen" in the vector space. This was not programmed in
+      Models like word2vec and GPT discover this geometry by training on text alone.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-01-vectors.py</span>
+      </div>
+      <pre><code><span class="cm"># The famous word embedding analogy</span>
+<span class="cm"># king - man + woman = queen</span>
+<span class="cm"># This is how real LLMs like GPT understand relationships between words and concepts.</span>
+<span class="cm"># The model learns that "gender direction" in vector space is consistent</span>
+
+man <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1.0</span>, <span class="num">0.1</span>, <span class="num">-0.5</span>, <span class="num">0.2</span>])
+woman <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">0.9</span>, <span class="num">0.6</span>, <span class="num">-0.4</span>, <span class="num">0.8</span>])
+
+analogy_result <span class="op">=</span> king <span class="op">-</span> man <span class="op">+</span> woman
+<span class="fn">print</span>(<span class="st">"king - man + woman ="</span>, analogy_result)</code></pre>
+    </div>
+  </div>
+
+
+  <!-- ── 4. Connection to AI ────────────────────────── -->
+  <div class="section">
+    <div class="section-label">AI Connection</div>
+    <h2>How This Connects to AI</h2>
+
+    <div class="ai-connection">
+      <div class="ai-label">Why this matters for machine learning</div>
+
+      <p>
+        In real LLMs like GPT, every word (or token) is represented as a
+        <strong>high-dimensional vector</strong> called an <em>embedding</em>.
+        A typical embedding has 768, 1536, or even 12,288 dimensions.
+        The same arithmetic you did above works at that scale.
+      </p>
+
+      <p>
+        The famous analogy <span class="analogy-code">king − man + woman ≈ queen</span>
+        was discovered in word2vec (2013), not programmed in but <em>learned</em>
+        from text. The model learned that there's a consistent "gender direction"
+        in vector space, and that royalty + gender-flip stays royalty.
+      </p>
+
+      <p>
+        <strong>Vector addition = combining concepts.</strong>
+        When a transformer processes "the tall professor", it builds a vector
+        that blends both meanings through addition-like operations in attention layers.
+      </p>
+
+      <p>
+        <strong>Scalar multiplication = intensity.</strong>
+        Attention weights (the scalars in "scaled dot-product attention") literally
+        scale vectors up or down before summing them. The exact same operation.
+      </p>
+
+      <p>
+        <strong>Bottom line:</strong> every forward pass through a neural network
+        is a cascade of vector additions and scalar multiplications.
+        Lesson 1 is the entire foundation.
+      </p>
+    </div>
+  </div>
+
+
+  <footer class="page-footer">
+    ML Math Foundations · Linear Algebra · Lesson 01: Vectors
+  </footer>
+
+</main>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
