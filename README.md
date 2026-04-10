@@ -1,5 +1,7 @@
 # ML Math Foundations
 
+**Live site: https://ml-math-foundations.vercel.app/**
+
 A personal study repo documenting my journey learning the mathematics behind machine learning and AI. Each topic includes working Python code and a wiki page that explains the concept in plain English, shows the key formulas, and connects it directly to how modern AI systems work.
 
 ## Why I made this
