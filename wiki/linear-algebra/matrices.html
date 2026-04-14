@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 3: Matrices | ML Math Foundations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<!-- ── GitHub link ────────────────────────────────── -->
+<a href="https://github.com/aarush6848ddh/ml-math-foundations" target="_blank" rel="noopener" class="github-btn">
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  GitHub
+</a>
+
+<!-- ── Mobile menu button ─────────────────────────── -->
+<button id="menu-btn" class="menu-btn" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ── Sidebar ────────────────────────────────────── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-logo">
+    <a href="../index.html">
+      <div class="site-title">ML Math Foundations</div>
+      <div class="site-sub">A personal study wiki</div>
+    </a>
+  </div>
+
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+    </ul>
+
+    <div class="nav-section">Linear Algebra</div>
+    <ul>
+      <li><a href="vectors.html">Lesson 1: Vectors</a></li>
+      <li><a href="span.html">Lesson 2: Span</a></li>
+      <li><a href="matrices.html" class="active">Lesson 3: Matrices</a></li>
+      <!-- ADD NEW LINEAR ALGEBRA LESSONS HERE -->
+    </ul>
+
+    <div class="nav-section">Calculus</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+    </ul>
+
+    <div class="nav-section">Probability &amp; Stats</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- ── Main content ───────────────────────────────── -->
+<main class="main">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span>›</span>
+      <a href="../index.html">Linear Algebra</a>
+      <span>›</span>
+      Matrices
+    </div>
+    <h1>Matrices as Linear Transformations</h1>
+    <div class="subtitle">From 3Blue1Brown, Essence of Linear Algebra, Chapter 3</div>
+    <div class="page-meta">
+      <span class="tag tag-section">Linear Algebra</span>
+      <span class="tag tag-lesson">Lesson 03</span>
+    </div>
+  </div>
+
+
+  <!-- ── 1. Concept in Plain English ───────────────── -->
+  <div class="section">
+    <div class="section-label">Concept</div>
+    <h2>Matrices are Transformations</h2>
+
+    <p>
+      A matrix is not just a grid of numbers. It describes a <strong>linear transformation</strong>:
+      a function that takes a vector as input and moves it to a new location, while keeping
+      the origin fixed and preserving straight lines.
+    </p>
+
+    <div class="callout">
+      <strong>The key insight:</strong> to fully describe where a linear transformation sends every
+      vector in 2D space, you only need to record where the two basis vectors
+      \(\hat{\imath}\) and \(\hat{\jmath}\) land. Everything else follows automatically from
+      linearity. The columns of the matrix are exactly those landing spots.
+    </div>
+
+    <div class="video-embed">
+      <video autoplay loop muted playsinline>
+        <source src="../animations/LinearTransformations.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <h3>Reading a matrix</h3>
+    <p>
+      Given a matrix
+      \(M = \begin{bmatrix} a & b \\ c & d \end{bmatrix}\),
+      the first column \(\begin{bmatrix} a \\ c \end{bmatrix}\) is where \(\hat{\imath}\) lands,
+      and the second column \(\begin{bmatrix} b \\ d \end{bmatrix}\) is where \(\hat{\jmath}\) lands.
+    </p>
+
+    <h3>Matrix-vector multiplication as a linear combination</h3>
+    <p>
+      To transform a vector \(\mathbf{v} = \begin{bmatrix} x \\ y \end{bmatrix}\),
+      scale each column by the corresponding coordinate and add:
+    </p>
+    \[
+      M\mathbf{v} = x \cdot \text{col}_1(M) + y \cdot \text{col}_2(M)
+    \]
+    <p>
+      This is exactly what <code style="font-family:var(--font-mono);font-size:0.85em;">np.matmul</code>
+      computes. The column-scaling view is more intuitive than the row-dot-product view for
+      understanding what is geometrically happening.
+    </p>
+
+    <h3>Rotation, shear, and squish</h3>
+    <p>
+      Different matrices produce different geometric effects. A <strong>rotation matrix</strong>
+      spins every vector by a fixed angle. A <strong>shear matrix</strong> tilts space, keeping
+      one axis fixed while sliding the other. A matrix with <strong>linearly dependent columns</strong>
+      collapses all of 2D space onto a single line. The columns of the matrix completely
+      determine which transformation you get.
+    </p>
+  </div>
+
+
+  <!-- ── 2. Key Formulas ────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Formulas</div>
+    <h2>Key Formulas</h2>
+
+    <div class="formula-grid">
+
+      <div class="formula-card">
+        <div class="formula-name">Matrix-vector product (column view)</div>
+        <div class="formula-math">
+          \[ M\mathbf{v} = v_1 \mathbf{c}_1 + v_2 \mathbf{c}_2 \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">90° counterclockwise rotation</div>
+        <div class="formula-math">
+          \[ R_{90} = \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix} \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Horizontal shear</div>
+        <div class="formula-math">
+          \[ S = \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix} \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Dependent columns (rank 1, collapses to a line)</div>
+        <div class="formula-math">
+          \[ D = \begin{bmatrix} 1 & 5 \\ 3 & 15 \end{bmatrix}, \quad \text{col}_2 = 5 \cdot \text{col}_1 \]
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── 3. Code Examples ───────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Code</div>
+    <h2>Code Examples</h2>
+    <p>
+      All code below is taken verbatim from <code style="font-family:var(--font-mono);font-size:0.85em;">lesson-03-matrices.py</code>.
+    </p>
+
+    <!-- Part 1 -->
+    <h3>Part 1: Applying a transformation matrix to a vector</h3>
+    <p>
+      The matrix \(\begin{bmatrix}1 & 3\\2 & 1\end{bmatrix}\) sends \(\hat{\imath}\) to
+      \(\begin{bmatrix}1\\2\end{bmatrix}\) and \(\hat{\jmath}\) to \(\begin{bmatrix}3\\1\end{bmatrix}\).
+      To transform \(\mathbf{v} = \begin{bmatrix}5\\3\end{bmatrix}\), scale column 1 by 5 and
+      column 2 by 3, then add. NumPy's
+      <code style="font-family:var(--font-mono);font-size:0.85em;">np.matmul</code> gives the same result.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-03-matrices.py</span>
+      </div>
+      <pre><code><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># column 1 = where i_hat [1, 0] lands</span>
+<span class="cm"># column 2 = where j_hat [0, 1] lands</span>
+matrix <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">1</span>, <span class="num">3</span>],
+    [<span class="num">2</span>, <span class="num">1</span>]
+])
+
+v <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">5</span>, <span class="num">3</span>])
+
+<span class="cm"># manual: scale column 1 by v[0], scale column 2 by v[1], add</span>
+col1 <span class="op">=</span> matrix[:, <span class="num">0</span>]
+col2 <span class="op">=</span> matrix[:, <span class="num">1</span>]
+manual_result <span class="op">=</span> (v[<span class="num">0</span>] <span class="op">*</span> col1) <span class="op">+</span> (v[<span class="num">1</span>] <span class="op">*</span> col2)
+<span class="fn">print</span>(<span class="st">f"Manual result: {manual_result}"</span>)
+
+numpy_result <span class="op">=</span> np.<span class="fn">matmul</span>(matrix, v)
+<span class="fn">print</span>(<span class="st">f"Numpy result: {numpy_result}"</span>)</code></pre>
+    </div>
+
+    <!-- Part 2 -->
+    <h3>Part 2: Rotation matrix (90 degrees counterclockwise)</h3>
+    <p>
+      A 90-degree rotation sends \(\hat{\imath} = \begin{bmatrix}1\\0\end{bmatrix}\) to
+      \(\begin{bmatrix}0\\1\end{bmatrix}\) and \(\hat{\jmath} = \begin{bmatrix}0\\1\end{bmatrix}\)
+      to \(\begin{bmatrix}-1\\0\end{bmatrix}\). Those two landing spots become the columns.
+      Applying this matrix to any vector rotates it 90 degrees.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-03-matrices.py</span>
+      </div>
+      <pre><code><span class="cm"># i_hat [1,0] lands at [0,1]</span>
+<span class="cm"># j_hat [0,1] lands at [-1,0]</span>
+rotation_matrix <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">0</span>, <span class="op">-</span><span class="num">1</span>],
+    [<span class="num">1</span>,  <span class="num">0</span>]
+])
+
+test_vectors <span class="op">=</span> [np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">0</span>]), np.<span class="fn">array</span>([<span class="num">0</span>, <span class="num">1</span>]), np.<span class="fn">array</span>([<span class="num">2</span>, <span class="num">3</span>])]
+<span class="kw">for</span> vec <span class="kw">in</span> test_vectors:
+    result <span class="op">=</span> (vec[<span class="num">0</span>] <span class="op">*</span> rotation_matrix[:, <span class="num">0</span>]) <span class="op">+</span> (vec[<span class="num">1</span>] <span class="op">*</span> rotation_matrix[:, <span class="num">1</span>])
+    <span class="fn">print</span>(<span class="st">f"Rotation: {vec} -> {result}"</span>)</code></pre>
+    </div>
+
+    <!-- Part 3 -->
+    <h3>Part 3: Shear matrix</h3>
+    <p>
+      A shear keeps \(\hat{\imath}\) fixed at \(\begin{bmatrix}1\\0\end{bmatrix}\) but
+      moves \(\hat{\jmath}\) to \(\begin{bmatrix}1\\1\end{bmatrix}\). The result: vertical
+      lines tilt, horizontal lines stay flat. Space is slanted, not rotated.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-03-matrices.py</span>
+      </div>
+      <pre><code><span class="cm"># i_hat stays fixed at [1,0]</span>
+<span class="cm"># j_hat moves to [1,1]</span>
+shear_matrix <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">1</span>, <span class="num">1</span>],
+    [<span class="num">0</span>, <span class="num">1</span>]
+])
+
+<span class="kw">for</span> vec <span class="kw">in</span> test_vectors:
+    result <span class="op">=</span> np.<span class="fn">matmul</span>(shear_matrix, vec)
+    <span class="fn">print</span>(<span class="st">f"Shear: {vec} -> {result}"</span>)</code></pre>
+    </div>
+
+    <!-- Part 4 -->
+    <h3>Part 4: Linearly dependent columns (space collapses to a line)</h3>
+    <p>
+      When column 2 is a multiple of column 1, any input vector gets squished onto that single
+      line. All outputs are scalar multiples of each other. The transformation destroys
+      one dimension of information.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-03-matrices.py</span>
+      </div>
+      <pre><code>dependent_matrix <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">1</span>,  <span class="num">5</span>],
+    [<span class="num">3</span>, <span class="num">15</span>]
+])
+
+<span class="cm"># apply to several vectors and show they all land on the same line</span>
+<span class="kw">for</span> vec <span class="kw">in</span> test_vectors:
+    result <span class="op">=</span> np.<span class="fn">matmul</span>(dependent_matrix, vec)
+    <span class="fn">print</span>(<span class="st">f"Squished: {vec} -> {result}"</span>)
+
+<span class="cm"># all results are scalar multiples of each other, all on the same line</span></code></pre>
+    </div>
+  </div>
+
+
+  <!-- ── 4. Connection to AI ────────────────────────── -->
+  <div class="section">
+    <div class="section-label">AI Connection</div>
+    <h2>How This Connects to AI</h2>
+
+    <div class="ai-connection">
+      <div class="ai-label">Why this matters for machine learning</div>
+
+      <p>
+        Weight matrices in neural networks are linear transformations. Every layer in a
+        neural network applies one of these: it takes an input vector and transforms it into
+        a new vector in a different space. The columns of the weight matrix tell you where
+        each basis direction lands.
+      </p>
+
+      <p>
+        When you write <code style="font-family:var(--font-mono);font-size:0.85em;">x @ W</code>
+        in PyTorch, that is exactly what we did with
+        <code style="font-family:var(--font-mono);font-size:0.85em;">np.matmul()</code>.
+        <code style="font-family:var(--font-mono);font-size:0.85em;">x</code> is your input
+        vector or batch of vectors. <code style="font-family:var(--font-mono);font-size:0.85em;">W</code>
+        is the weight matrix, the transformation. The result is the transformed vector that
+        flows into the next layer.
+      </p>
+
+      <p>
+        Stacking layers means applying multiple transformations in sequence. Each one rotates,
+        scales, and stretches the data into a new space where patterns become easier to
+        separate and classify. Deep networks are powerful because they can compose many simple
+        linear transformations (plus nonlinearities) into very complex mappings.
+      </p>
+
+      <p>
+        <strong>Transformers are almost entirely matrix multiplications.</strong>
+        The attention mechanism computes \(Q K^\top\), a matrix multiplication.
+        The feedforward layers compute \(x W_1\) then \(x W_2\), two more.
+        The embedding lookup is a matrix multiplication. Every single operation in a
+        transformer reduces to this one operation applied in higher and higher dimensions.
+      </p>
+
+      <p>
+        <strong>The dependent-columns case shows a real failure mode.</strong>
+        If a weight matrix has linearly dependent columns, it is rank-deficient: it collapses
+        some dimensions and loses information. This is related to why regularization and
+        careful initialization matter. You want your weight matrices to keep space full-rank
+        so the network can represent rich transformations.
+      </p>
+    </div>
+  </div>
+
+
+  <footer class="page-footer">
+    ML Math Foundations · Linear Algebra · Lesson 03: Matrices
+  </footer>
+
+</main>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

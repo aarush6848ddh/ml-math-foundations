@@ -235,6 +235,21 @@ body {
 
 .callout strong { font-style: normal; color: var(--text); }
 
+/* ── Video embed ─────────────────────────────── */
+.video-embed {
+  margin: 1.4rem 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #000;
+}
+
+.video-embed video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 /* ── Formula cards ───────────────────────────── */
 .formula-grid {
   display: grid;
@@ -456,6 +471,9 @@ pre code {
   font-size: 0.78rem;
   color: var(--text-dim);
 }
+
+.page-footer a { color: var(--accent); text-decoration: none; }
+.page-footer a:hover { text-decoration: underline; }
 
 /* ── GitHub button ───────────────────────────── */
 .github-btn {

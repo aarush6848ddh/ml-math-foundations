@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 2: Span | ML Math Foundations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<!-- ── GitHub link ────────────────────────────────── -->
+<a href="https://github.com/aarush6848ddh/ml-math-foundations" target="_blank" rel="noopener" class="github-btn">
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  GitHub
+</a>
+
+<!-- ── Mobile menu button ─────────────────────────── -->
+<button id="menu-btn" class="menu-btn" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ── Sidebar ────────────────────────────────────── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-logo">
+    <a href="../index.html">
+      <div class="site-title">ML Math Foundations</div>
+      <div class="site-sub">A personal study wiki</div>
+    </a>
+  </div>
+
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+    </ul>
+
+    <div class="nav-section">Linear Algebra</div>
+    <ul>
+      <li><a href="vectors.html">Lesson 1: Vectors</a></li>
+      <li><a href="span.html" class="active">Lesson 2: Span</a></li>
+      <li><a href="matrices.html">Lesson 3: Matrices</a></li>
+      <!-- ADD NEW LINEAR ALGEBRA LESSONS HERE -->
+    </ul>
+
+    <div class="nav-section">Calculus</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+    </ul>
+
+    <div class="nav-section">Probability &amp; Stats</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- ── Main content ───────────────────────────────── -->
+<main class="main">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span>›</span>
+      <a href="../index.html">Linear Algebra</a>
+      <span>›</span>
+      Span
+    </div>
+    <h1>Span, Linear Combinations, and Basis</h1>
+    <div class="subtitle">From 3Blue1Brown, Essence of Linear Algebra, Chapter 2</div>
+    <div class="page-meta">
+      <span class="tag tag-section">Linear Algebra</span>
+      <span class="tag tag-lesson">Lesson 02</span>
+    </div>
+  </div>
+
+
+  <!-- ── 1. Concept in Plain English ───────────────── -->
+  <div class="section">
+    <div class="section-label">Concept</div>
+    <h2>Linear Combinations and Span</h2>
+
+    <p>
+      Given two vectors \(\mathbf{v}\) and \(\mathbf{w}\), a <strong>linear combination</strong>
+      is any vector you can make by scaling each one and adding the results:
+      \(a\mathbf{v} + b\mathbf{w}\), where \(a\) and \(b\) are any real numbers.
+    </p>
+
+    <div class="callout">
+      <strong>The span</strong> of a set of vectors is the collection of <em>all</em> possible
+      linear combinations. It is the complete set of places you can reach using those vectors as
+      "movement ingredients."
+    </div>
+
+    <h3>Two independent vectors span the whole plane</h3>
+    <p>
+      If \(\mathbf{v}\) and \(\mathbf{w}\) point in genuinely different directions, you can
+      reach any point in 2D space by choosing the right scalars. Changing \(a\) and \(b\)
+      freely lets the tip of \(a\mathbf{v} + b\mathbf{w}\) sweep the entire plane.
+    </p>
+
+    <h3>Dependent vectors are stuck on a line</h3>
+    <p>
+      If one vector is just a scaled version of the other, say \(\mathbf{w} = 3\mathbf{v}\),
+      then \(a\mathbf{v} + b\mathbf{w} = a\mathbf{v} + 3b\mathbf{v} = (a + 3b)\mathbf{v}\).
+      No matter what \(a\) and \(b\) you pick, you only ever produce multiples of \(\mathbf{v}\).
+      You are locked onto a single line through the origin.
+    </p>
+
+    <h3>Linear independence</h3>
+    <p>
+      Two vectors are <strong>linearly independent</strong> if neither is a scalar multiple of
+      the other. Geometrically, they point in different directions. Algebraically, the only
+      solution to \(a\mathbf{v} + b\mathbf{w} = \mathbf{0}\) is \(a = b = 0\).
+    </p>
+
+    <h3>The standard basis</h3>
+    <p>
+      The most natural choice of independent vectors in 2D is
+      \(\hat{\imath} = \begin{bmatrix}1\\0\end{bmatrix}\) and
+      \(\hat{\jmath} = \begin{bmatrix}0\\1\end{bmatrix}\).
+      Every 2D vector is already written as a linear combination of these:
+      \(\begin{bmatrix}5\\-3\end{bmatrix} = 5\hat{\imath} + (-3)\hat{\jmath}\).
+      The coordinates of a vector are just its scalars in the standard basis.
+    </p>
+  </div>
+
+
+  <!-- ── 2. Key Formulas ────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Formulas</div>
+    <h2>Key Formulas</h2>
+
+    <div class="formula-grid">
+
+      <div class="formula-card">
+        <div class="formula-name">Linear combination</div>
+        <div class="formula-math">
+          \[ a\mathbf{v} + b\mathbf{w}, \quad a,b \in \mathbb{R} \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Span</div>
+        <div class="formula-math">
+          \[ \text{span}(\mathbf{v}, \mathbf{w}) = \{ a\mathbf{v} + b\mathbf{w} \mid a,b \in \mathbb{R} \} \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Solving for scalars</div>
+        <div class="formula-math">
+          \[ \begin{bmatrix} \mathbf{v} & \mathbf{w} \end{bmatrix} \begin{bmatrix} a \\ b \end{bmatrix} = \mathbf{t} \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">2D cross product (dependence test)</div>
+        <div class="formula-math">
+          \[ \mathbf{v} \times \mathbf{w} = v_1 w_2 - v_2 w_1 \]
+        </div>
+      </div>
+
+    </div>
+
+    <p style="margin-top:1rem;">
+      If the cross product equals zero, the vectors are linearly dependent and their span
+      is only a line. If it is nonzero, they are independent and their span is the full plane.
+    </p>
+  </div>
+
+
+  <!-- ── 3. Code Examples ───────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Code</div>
+    <h2>Code Examples</h2>
+    <p>
+      All code below is taken verbatim from <code style="font-family:var(--font-mono);font-size:0.85em;">lesson02-span.py</code>.
+    </p>
+
+    <!-- Part 1: Linear combinations -->
+    <h3>Part 1: Linear combinations</h3>
+    <p>
+      Two linearly independent vectors \(\mathbf{v} = \begin{bmatrix}2\\3\end{bmatrix}\) and
+      \(\mathbf{w} = \begin{bmatrix}1\\4\end{bmatrix}\). Trying several scalar pairs shows
+      the results pointing in many different directions, confirming the vectors span the plane.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson02-span.py</span>
+      </div>
+      <pre><code><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># define two linearly independent basis vectors</span>
+v <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">2</span>, <span class="num">3</span>])
+w <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">4</span>])
+
+<span class="cm"># a*v + b*w = some vector in the plane</span>
+scalar_pairs <span class="op">=</span> [(<span class="num">1</span>,<span class="num">1</span>), (<span class="num">2</span>,<span class="num">-1</span>), (<span class="num">0</span>,<span class="num">3</span>), (<span class="num">-1</span>,<span class="num">2</span>), (<span class="num">3</span>,<span class="num">3</span>)]
+<span class="kw">for</span> a, b <span class="kw">in</span> scalar_pairs:
+    result <span class="op">=</span> (a <span class="op">*</span> v) <span class="op">+</span> (b <span class="op">*</span> w)
+    <span class="fn">print</span>(<span class="st">f"a = {a}, b = {b} -> {result}"</span>)</code></pre>
+    </div>
+
+    <!-- Part 2: Span demonstration -->
+    <h3>Part 2: Reaching any target with independent vectors</h3>
+    <p>
+      Since \(\mathbf{v}\) and \(\mathbf{w}\) are independent, we can reach any target point
+      by solving the linear system for the right scalars.
+      <code style="font-family:var(--font-mono);font-size:0.85em;">np.linalg.solve</code>
+      finds the coefficients \(a\) and \(b\) such that \(a\mathbf{v} + b\mathbf{w} = \mathbf{t}\).
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson02-span.py</span>
+      </div>
+      <pre><code><span class="cm"># two linearly independent vectors can reach any point (using vectors from part 1)</span>
+matrix <span class="op">=</span> np.<span class="fn">column_stack</span>((v, w))  <span class="cm"># columns are the basis vectors</span>
+target <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">7</span>, <span class="num">4</span>])
+
+<span class="cm"># find the scalars needed such that a*v + b*w = target</span>
+scalars <span class="op">=</span> np.linalg.<span class="fn">solve</span>(matrix, target)
+<span class="fn">print</span>(<span class="st">f"Scalars to reach {target}: {scalars}"</span>)</code></pre>
+    </div>
+
+    <!-- Part 3: Dependent vectors -->
+    <h3>Part 3: Dependent vectors are stuck on a line</h3>
+    <p>
+      When \(\mathbf{w}_{dep} = 3\mathbf{v}_{dep}\), every linear combination
+      \(a\mathbf{v}_{dep} + b\mathbf{w}_{dep}\) collapses to a scalar multiple of
+      \(\mathbf{v}_{dep}\). Notice in the output that the second component is always
+      exactly 3 times the first. The two vectors have the same span as one.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson02-span.py</span>
+      </div>
+      <pre><code><span class="cm"># two linearly DEPENDENT vectors can only span a line</span>
+<span class="cm"># one is just a scaled version of the other</span>
+v_dep <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">3</span>])
+w_dep <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">3</span>, <span class="num">9</span>])
+
+<span class="kw">for</span> a, b <span class="kw">in</span> scalar_pairs:
+    result <span class="op">=</span> (a <span class="op">*</span> v_dep) <span class="op">+</span> (b <span class="op">*</span> w_dep)
+    <span class="fn">print</span>(<span class="st">f"Dependent combo: a = {a}, b = {b} -> {result}"</span>)
+
+<span class="cm"># Output: second number is always 3x the first.</span>
+<span class="cm"># No matter which scalars you pick, you stay on the same line through the origin.</span></code></pre>
+    </div>
+
+    <!-- Part 4: Linear dependence check -->
+    <h3>Part 4: Checking linear dependence with the cross product</h3>
+    <p>
+      In 2D, the cross product \(v_1 w_2 - v_2 w_1\) measures the area of the parallelogram
+      formed by the two vectors. Area zero means they are collinear, i.e., dependent.
+      NumPy's <code style="font-family:var(--font-mono);font-size:0.85em;">np.cross</code>
+      computes this directly.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson02-span.py</span>
+      </div>
+      <pre><code><span class="kw">def</span> <span class="fn">are_linearly_dependent</span>(v, w) <span class="op">-></span> bool:
+    <span class="kw">if</span> np.<span class="fn">cross</span>(v, w) <span class="op">==</span> <span class="num">0</span>:
+        <span class="kw">return</span> <span class="kw">True</span>
+    <span class="kw">else</span>:
+        <span class="kw">return</span> <span class="kw">False</span>
+
+<span class="cm"># (2*4) - (1*3) = 5, nonzero: independent</span>
+<span class="fn">print</span>(<span class="fn">are_linearly_dependent</span>(v, w))      <span class="cm"># False</span>
+
+<span class="cm"># (1*9) - (3*3) = 0: dependent</span>
+<span class="fn">print</span>(<span class="fn">are_linearly_dependent</span>(v_dep, w_dep))  <span class="cm"># True</span></code></pre>
+    </div>
+
+    <!-- Part 5: Standard basis -->
+    <h3>Part 5: Standard basis vectors</h3>
+    <p>
+      \(\hat{\imath}\) and \(\hat{\jmath}\) are the simplest independent pair. With the
+      standard basis, solving for scalars is trivial because the matrix is the identity.
+      The scalars are just the coordinates of the target.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson02-span.py</span>
+      </div>
+      <pre><code><span class="cm"># i_hat and j_hat are the building blocks of all 2D space</span>
+i_hat <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">0</span>])
+j_hat <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">0</span>, <span class="num">1</span>])
+
+target_point <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">5</span>, <span class="num">-3</span>])
+
+<span class="cm"># to reach [5, -3] just scale i_hat by 5 and j_hat by -3</span>
+matrix2 <span class="op">=</span> np.<span class="fn">column_stack</span>((i_hat, j_hat))
+result <span class="op">=</span> np.linalg.<span class="fn">solve</span>(matrix2, target_point)
+<span class="fn">print</span>(<span class="st">f"Reaching {target_point} using standard basis: {result}"</span>)</code></pre>
+    </div>
+  </div>
+
+
+  <!-- ── 4. Connection to AI ────────────────────────── -->
+  <div class="section">
+    <div class="section-label">AI Connection</div>
+    <h2>How This Connects to AI</h2>
+
+    <div class="ai-connection">
+      <div class="ai-label">Why this matters for machine learning</div>
+
+      <p>
+        In a transformer, each token is a vector in a high-dimensional embedding space.
+        That space has a <strong>basis</strong>: a set of independent directions that can
+        reach any point in it. The model does not use \(\hat{\imath}\) and \(\hat{\jmath}\).
+        It learns its own basis, the directions most useful for representing language.
+      </p>
+
+      <p>
+        Every embedding dimension is like a basis vector. The 768 dimensions in BERT or
+        the 12,288 dimensions in GPT-3 are the coordinates of each token in the model's
+        learned basis. Training adjusts those basis directions so that meaningful concepts
+        end up as consistent, reachable locations in the space.
+      </p>
+
+      <p>
+        <strong>Span is why high-dimensional spaces are powerful.</strong>
+        With 768 independent directions, the span is all of \(\mathbb{R}^{768}\).
+        Every possible nuance of meaning has a place to live.
+        If the dimensions were dependent (redundant), the model would be stuck on a
+        lower-dimensional subspace and could not represent the full richness of language.
+      </p>
+
+      <p>
+        <strong>Linear dependence shows up as a failure mode.</strong>
+        When attention heads in a transformer learn redundant directions, they waste
+        capacity. Research like "Attention is Not All You Need" studies exactly this:
+        how many of the learned basis directions are truly independent and necessary.
+      </p>
+    </div>
+  </div>
+
+
+  <footer class="page-footer">
+    ML Math Foundations · Linear Algebra · Lesson 02: Span
+  </footer>
+
+</main>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
