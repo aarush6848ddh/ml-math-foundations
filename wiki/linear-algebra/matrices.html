@@ -51,6 +51,7 @@
       <li><a href="vectors.html">Lesson 1: Vectors</a></li>
       <li><a href="span.html">Lesson 2: Span</a></li>
       <li><a href="matrices.html" class="active">Lesson 3: Matrices</a></li>
+      <li><a href="matrix-multiplication.html">Lesson 4: Matrix Multiplication</a></li>
       <!-- ADD NEW LINEAR ALGEBRA LESSONS HERE -->
     </ul>
 
@@ -225,6 +226,11 @@ manual_result <span class="op">=</span> (v[<span class="num">0</span>] <span cla
 numpy_result <span class="op">=</span> np.<span class="fn">matmul</span>(matrix, v)
 <span class="fn">print</span>(<span class="st">f"Numpy result: {numpy_result}"</span>)</code></pre>
     </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Manual result: [14 13]
+Numpy result: [14 13]</pre>
+    </div>
 
     <!-- Part 2 -->
     <h3>Part 2: Rotation matrix (90 degrees counterclockwise)</h3>
@@ -251,6 +257,12 @@ test_vectors <span class="op">=</span> [np.<span class="fn">array</span>([<span 
     result <span class="op">=</span> (vec[<span class="num">0</span>] <span class="op">*</span> rotation_matrix[:, <span class="num">0</span>]) <span class="op">+</span> (vec[<span class="num">1</span>] <span class="op">*</span> rotation_matrix[:, <span class="num">1</span>])
     <span class="fn">print</span>(<span class="st">f"Rotation: {vec} -> {result}"</span>)</code></pre>
     </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Rotation: [1 0] -> [0 1]
+Rotation: [0 1] -> [-1  0]
+Rotation: [2 3] -> [-3  2]</pre>
+    </div>
 
     <!-- Part 3 -->
     <h3>Part 3: Shear matrix</h3>
@@ -274,6 +286,12 @@ shear_matrix <span class="op">=</span> np.<span class="fn">array</span>([
 <span class="kw">for</span> vec <span class="kw">in</span> test_vectors:
     result <span class="op">=</span> np.<span class="fn">matmul</span>(shear_matrix, vec)
     <span class="fn">print</span>(<span class="st">f"Shear: {vec} -> {result}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Shear: [1 0] -> [1 0]
+Shear: [0 1] -> [1 1]
+Shear: [2 3] -> [5 3]</pre>
     </div>
 
     <!-- Part 4 -->
@@ -299,6 +317,12 @@ shear_matrix <span class="op">=</span> np.<span class="fn">array</span>([
     <span class="fn">print</span>(<span class="st">f"Squished: {vec} -> {result}"</span>)
 
 <span class="cm"># all results are scalar multiples of each other, all on the same line</span></code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Squished: [1 0] -> [1 3]
+Squished: [0 1] -> [ 5 15]
+Squished: [2 3] -> [17 51]</pre>
     </div>
   </div>
 

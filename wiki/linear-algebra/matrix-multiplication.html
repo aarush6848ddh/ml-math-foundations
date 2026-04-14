@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 4: Matrix Multiplication | ML Math Foundations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<!-- ── GitHub link ────────────────────────────────── -->
+<a href="https://github.com/aarush6848ddh/ml-math-foundations" target="_blank" rel="noopener" class="github-btn">
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  GitHub
+</a>
+
+<!-- ── Mobile menu button ─────────────────────────── -->
+<button id="menu-btn" class="menu-btn" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ── Sidebar ────────────────────────────────────── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-logo">
+    <a href="../index.html">
+      <div class="site-title">ML Math Foundations</div>
+      <div class="site-sub">A personal study wiki</div>
+    </a>
+  </div>
+
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+    </ul>
+
+    <div class="nav-section">Linear Algebra</div>
+    <ul>
+      <li><a href="vectors.html">Lesson 1: Vectors</a></li>
+      <li><a href="span.html">Lesson 2: Span</a></li>
+      <li><a href="matrices.html">Lesson 3: Matrices</a></li>
+      <li><a href="matrix-multiplication.html" class="active">Lesson 4: Matrix Multiplication</a></li>
+      <!-- ADD NEW LINEAR ALGEBRA LESSONS HERE -->
+    </ul>
+
+    <div class="nav-section">Calculus</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+    </ul>
+
+    <div class="nav-section">Probability &amp; Stats</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- ── Main content ───────────────────────────────── -->
+<main class="main">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span>›</span>
+      <a href="../index.html">Linear Algebra</a>
+      <span>›</span>
+      Matrix Multiplication
+    </div>
+    <h1>Matrix Multiplication as Composition</h1>
+    <div class="subtitle">From 3Blue1Brown, Essence of Linear Algebra, Chapter 4</div>
+    <div class="page-meta">
+      <span class="tag tag-section">Linear Algebra</span>
+      <span class="tag tag-lesson">Lesson 04</span>
+    </div>
+  </div>
+
+
+  <!-- ── 1. Concept in Plain English ───────────────── -->
+  <div class="section">
+    <div class="section-label">Concept</div>
+    <h2>Multiplying Matrices Means Composing Transformations</h2>
+
+    <p>
+      When you multiply two matrices together, you are not doing some arbitrary number crunching.
+      You are asking: what single transformation has the same effect as applying one transformation
+      and then another? That combined transformation is called the <strong>composition</strong>,
+      and the resulting matrix is the product.
+    </p>
+
+    <div class="callout">
+      <strong>The key insight:</strong> \(AB\mathbf{v}\) means "apply \(B\) first, then apply \(A\)."
+      Read right to left. The product \(AB\) is the single matrix that does both steps at once.
+    </div>
+
+    <div class="video-embed">
+      <video autoplay loop muted playsinline>
+        <source src="../animations/MatrixComposition.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <h3>Order matters</h3>
+    <p>
+      Matrix multiplication is <strong>not commutative</strong>. Rotating then shearing produces
+      a different result than shearing then rotating. \(AB \neq BA\) in general. The geometric
+      reason is simple: the first transformation changes the space, and the second transformation
+      acts on that already-changed space. Reverse the order and you get a different chain of events.
+    </p>
+
+    <h3>The exception: uniform scaling</h3>
+    <p>
+      A scaling matrix. \(cI\) (the identity scaled by a constant) commutes with every matrix.
+      Geometrically, uniform scaling stretches space equally in all directions, so it does not
+      interact with any other transformation. It does not matter whether you scale before or
+      after rotating: the result is the same.
+    </p>
+
+    <h3>Associativity</h3>
+    <p>
+      Matrix multiplication is <strong>associative</strong>: \((AB)C = A(BC)\). The grouping
+      of parentheses does not change the final result, as long as the order stays the same.
+      This is not obvious from the arithmetic, but geometrically it makes sense: applying three
+      transformations in sequence produces the same composition no matter how you group the steps.
+    </p>
+  </div>
+
+
+  <!-- ── 2. Key Formulas ────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Formulas</div>
+    <h2>Key Formulas</h2>
+
+    <div class="formula-grid">
+
+      <div class="formula-card">
+        <div class="formula-name">Composition: apply B then A</div>
+        <div class="formula-math">
+          \[ (AB)\mathbf{v} = A(B\mathbf{v}) \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Non-commutativity (in general)</div>
+        <div class="formula-math">
+          \[ AB \neq BA \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Scaling commutes with everything</div>
+        <div class="formula-math">
+          \[ (cI)A = A(cI) = cA \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Associativity</div>
+        <div class="formula-math">
+          \[ (AB)C = A(BC) \]
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── 3. Code Examples ───────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Code</div>
+    <h2>Code Examples</h2>
+    <p>
+      All code below is taken verbatim from <code style="font-family:var(--font-mono);font-size:0.85em;">lesson-04-matrix-multiplication.py</code>.
+    </p>
+
+    <!-- Part 1 -->
+    <h3>Part 1: Composition, the long way vs. the short way</h3>
+    <p>
+      Rotate a vector, then shear the result. Two separate
+      <code style="font-family:var(--font-mono);font-size:0.85em;">matmul</code> calls or one
+      composition matrix: same answer.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-04-matrix-multiplication.py</span>
+      </div>
+      <pre><code><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cm"># rotation matrix</span>
+rotation_matrix <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">0</span>, <span class="op">-</span><span class="num">1</span>],
+    [<span class="num">1</span>,  <span class="num">0</span>]
+])
+
+<span class="cm"># shear matrix</span>
+shear_matrix <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">1</span>, <span class="num">1</span>],
+    [<span class="num">0</span>, <span class="num">1</span>]
+])
+
+v <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">2</span>, <span class="num">1</span>])
+
+<span class="cm"># apply rotation first then shear the long way</span>
+step1 <span class="op">=</span> np.<span class="fn">matmul</span>(rotation_matrix, v)
+step2 <span class="op">=</span> np.<span class="fn">matmul</span>(shear_matrix, step1)
+<span class="fn">print</span>(<span class="st">f"Long way: {step2}"</span>)
+
+<span class="cm"># compute the composition matrix in one shot</span>
+composition <span class="op">=</span> np.<span class="fn">matmul</span>(shear_matrix, rotation_matrix)
+result <span class="op">=</span> np.<span class="fn">matmul</span>(composition, v)
+<span class="fn">print</span>(<span class="st">f"Composition: {result}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Long way: [1 2]
+Composition: [1 2]</pre>
+    </div>
+
+    <!-- Part 2 -->
+    <h3>Part 2: Order matters (non-commutativity)</h3>
+    <p>
+      Rotate then shear is not the same as shear then rotate. The two composition matrices
+      are different, proving \(AB \neq BA\).
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-04-matrix-multiplication.py</span>
+      </div>
+      <pre><code>rotation_shear <span class="op">=</span> np.<span class="fn">matmul</span>(rotation_matrix, shear_matrix)
+shear_rotation <span class="op">=</span> np.<span class="fn">matmul</span>(shear_matrix, rotation_matrix)
+<span class="fn">print</span>(<span class="st">f"rotation @ shear: {rotation_shear}"</span>)
+<span class="fn">print</span>(<span class="st">f"shear @ rotation: {shear_rotation}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>rotation @ shear: [[ 0 -1]
+ [ 1  1]]
+shear @ rotation: [[ 1 -1]
+ [ 1  0]]</pre>
+    </div>
+
+    <!-- Part 3 -->
+    <h3>Part 3: The exception: scaling commutes with everything</h3>
+    <p>
+      A uniform scaling matrix is the identity times a scalar. Because it stretches equally in
+      every direction, the order with any other matrix does not matter.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-04-matrix-multiplication.py</span>
+      </div>
+      <pre><code><span class="cm"># identity matrix scaled by 5</span>
+scaling_matrix <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">5</span>, <span class="num">0</span>],
+    [<span class="num">0</span>, <span class="num">5</span>]
+])
+
+normal_matrix <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">1</span>, <span class="num">5</span>],
+    [<span class="num">3</span>, <span class="num">5</span>]
+])
+
+composition1 <span class="op">=</span> np.<span class="fn">matmul</span>(scaling_matrix, normal_matrix)
+composition2 <span class="op">=</span> np.<span class="fn">matmul</span>(normal_matrix, scaling_matrix)
+<span class="fn">print</span>(<span class="st">f"scaling @ normal: {composition1}"</span>)
+<span class="fn">print</span>(<span class="st">f"normal @ scaling: {composition2}"</span>)
+<span class="fn">print</span>(<span class="st">f"Do they commute? {np.array_equal(composition1, composition2)}"</span>)
+<span class="cm"># A scaling matrix is just the identity times a scalar.</span>
+<span class="cm"># The identity does nothing, so it commutes with everything.</span></code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>scaling @ normal: [[ 5 25]
+ [15 25]]
+normal @ scaling: [[ 5 25]
+ [15 25]]
+Do they commute? True</pre>
+    </div>
+
+    <!-- Part 4 -->
+    <h3>Part 4: Associativity</h3>
+    <p>
+      \((AB)C\) and \(A(BC)\) always give the same result. The grouping does not matter,
+      only the order does.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-04-matrix-multiplication.py</span>
+      </div>
+      <pre><code>a <span class="op">=</span> np.<span class="fn">array</span>([[<span class="num">3</span>, <span class="num">4</span>], [<span class="num">5</span>, <span class="num">7</span>]])
+b <span class="op">=</span> np.<span class="fn">array</span>([[<span class="num">5</span>, <span class="num">8</span>], [<span class="num">3</span>, <span class="num">2</span>]])
+c <span class="op">=</span> np.<span class="fn">array</span>([[<span class="num">9</span>, <span class="num">6</span>], [<span class="num">7</span>, <span class="num">1</span>]])
+
+computation1 <span class="op">=</span> np.<span class="fn">matmul</span>(np.<span class="fn">matmul</span>(a, b), c)
+computation2 <span class="op">=</span> np.<span class="fn">matmul</span>(a, np.<span class="fn">matmul</span>(b, c))
+<span class="fn">print</span>(<span class="st">f"Are they the same? {np.array_equal(computation1, computation2)}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Are they the same? True</pre>
+    </div>
+  </div>
+
+
+  <!-- ── 4. Connection to AI ────────────────────────── -->
+  <div class="section">
+    <div class="section-label">AI Connection</div>
+    <h2>How This Connects to AI</h2>
+
+    <div class="ai-connection">
+      <div class="ai-label">Why this matters for machine learning</div>
+
+      <p>
+        Every forward pass through a neural network is matrix composition. Each layer applies
+        a transformation and the result flows into the next layer. The order of layers is
+        non-negotiable, just like matrix order matters. You cannot swap the attention block
+        and the feedforward block and expect the same result.
+      </p>
+
+      <p>
+        <strong>Associativity makes deep networks computationally efficient.</strong>
+        When you see <code style="font-family:var(--font-mono);font-size:0.85em;">x @ W1 @ W2 @ W3</code>
+        in a transformer, it does not matter whether you compute
+        <code style="font-family:var(--font-mono);font-size:0.85em;">(x @ W1 @ W2) @ W3</code>
+        or <code style="font-family:var(--font-mono);font-size:0.85em;">x @ (W1 @ W2 @ W3)</code>.
+        The result is identical. GPUs exploit this to batch and parallelize matrix operations
+        in any grouping that is most efficient for the hardware.
+      </p>
+
+      <p>
+        <strong>Non-commutativity is why architecture order is sacred.</strong>
+        In a transformer: query, key, value projections happen before attention. Attention
+        happens before the feedforward layer. Layer norm goes in a specific place. Each of
+        these is a matrix multiplication, and swapping their order would produce completely
+        different outputs. Non-commutativity is the mathematical reason architecture
+        decisions are not interchangeable.
+      </p>
+
+      <p>
+        <strong>Uniform scaling is why weight initialization uses identity-like matrices.</strong>
+        Scaling commutes because it is just the identity times a constant. Early in training,
+        initializing weights close to the identity keeps the signal flowing through many layers
+        without exploding or vanishing. The identity matrix is the neutral element of
+        composition: it does nothing, and it interacts cleanly with whatever comes next.
+      </p>
+    </div>
+  </div>
+
+
+  <footer class="page-footer">
+    ML Math Foundations · Linear Algebra · Lesson 04: Matrix Multiplication
+  </footer>
+
+</main>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

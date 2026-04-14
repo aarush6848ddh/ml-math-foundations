@@ -51,6 +51,7 @@
       <li><a href="vectors.html">Lesson 1: Vectors</a></li>
       <li><a href="span.html" class="active">Lesson 2: Span</a></li>
       <li><a href="matrices.html">Lesson 3: Matrices</a></li>
+      <li><a href="matrix-multiplication.html">Lesson 4: Matrix Multiplication</a></li>
       <!-- ADD NEW LINEAR ALGEBRA LESSONS HERE -->
     </ul>
 
@@ -214,6 +215,14 @@ scalar_pairs <span class="op">=</span> [(<span class="num">1</span>,<span class=
     result <span class="op">=</span> (a <span class="op">*</span> v) <span class="op">+</span> (b <span class="op">*</span> w)
     <span class="fn">print</span>(<span class="st">f"a = {a}, b = {b} -> {result}"</span>)</code></pre>
     </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>a = 1, b = 1 -> [3 7]
+a = 2, b = -1 -> [3 2]
+a = 0, b = 3 -> [ 3 12]
+a = -1, b = 2 -> [0 5]
+a = 3, b = 3 -> [ 9 21]</pre>
+    </div>
 
     <!-- Part 2: Span demonstration -->
     <h3>Part 2: Reaching any target with independent vectors</h3>
@@ -235,6 +244,10 @@ target <span class="op">=</span> np.<span class="fn">array</span>([<span class="
 <span class="cm"># find the scalars needed such that a*v + b*w = target</span>
 scalars <span class="op">=</span> np.linalg.<span class="fn">solve</span>(matrix, target)
 <span class="fn">print</span>(<span class="st">f"Scalars to reach {target}: {scalars}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Scalars to reach [7 4]: [ 4.8 -2.6]</pre>
     </div>
 
     <!-- Part 3: Dependent vectors -->
@@ -262,6 +275,14 @@ w_dep <span class="op">=</span> np.<span class="fn">array</span>([<span class="n
 <span class="cm"># Output: second number is always 3x the first.</span>
 <span class="cm"># No matter which scalars you pick, you stay on the same line through the origin.</span></code></pre>
     </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Dependent combo: a = 1, b = 1 -> [ 4 12]
+Dependent combo: a = 2, b = -1 -> [-1 -3]
+Dependent combo: a = 0, b = 3 -> [ 9 27]
+Dependent combo: a = -1, b = 2 -> [ 5 15]
+Dependent combo: a = 3, b = 3 -> [12 36]</pre>
+    </div>
 
     <!-- Part 4: Linear dependence check -->
     <h3>Part 4: Checking linear dependence with the cross product</h3>
@@ -288,6 +309,11 @@ w_dep <span class="op">=</span> np.<span class="fn">array</span>([<span class="n
 <span class="cm"># (1*9) - (3*3) = 0: dependent</span>
 <span class="fn">print</span>(<span class="fn">are_linearly_dependent</span>(v_dep, w_dep))  <span class="cm"># True</span></code></pre>
     </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>False
+True</pre>
+    </div>
 
     <!-- Part 5: Standard basis -->
     <h3>Part 5: Standard basis vectors</h3>
@@ -311,6 +337,10 @@ target_point <span class="op">=</span> np.<span class="fn">array</span>([<span c
 matrix2 <span class="op">=</span> np.<span class="fn">column_stack</span>((i_hat, j_hat))
 result <span class="op">=</span> np.linalg.<span class="fn">solve</span>(matrix2, target_point)
 <span class="fn">print</span>(<span class="st">f"Reaching {target_point} using standard basis: {result}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Reaching [ 5 -3] using standard basis: [ 5. -3.]</pre>
     </div>
   </div>
 
