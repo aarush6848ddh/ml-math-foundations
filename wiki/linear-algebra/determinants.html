@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 6: Determinants | ML Math Foundations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<!-- ── GitHub link ────────────────────────────────── -->
+<a href="https://github.com/aarush6848ddh/ml-math-foundations" target="_blank" rel="noopener" class="github-btn">
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  GitHub
+</a>
+
+<!-- ── Mobile menu button ─────────────────────────── -->
+<button id="menu-btn" class="menu-btn" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ── Sidebar ────────────────────────────────────── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-logo">
+    <a href="../index.html">
+      <div class="site-title">ML Math Foundations</div>
+      <div class="site-sub">A personal study wiki</div>
+    </a>
+  </div>
+
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+    </ul>
+
+    <div class="nav-section">Linear Algebra</div>
+    <ul>
+      <li><a href="vectors.html">Lesson 1: Vectors</a></li>
+      <li><a href="span.html">Lesson 2: Span</a></li>
+      <li><a href="matrices.html">Lesson 3: Matrices</a></li>
+      <li><a href="matrix-multiplication.html">Lesson 4: Matrix Multiplication</a></li>
+      <li><a href="3d-transformations.html">Lesson 5: 3D Transformations</a></li>
+      <li><a href="determinants.html" class="active">Lesson 6: Determinants</a></li>
+      <!-- ADD NEW LINEAR ALGEBRA LESSONS HERE -->
+    </ul>
+
+    <div class="nav-section">Calculus</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+    </ul>
+
+    <div class="nav-section">Probability &amp; Stats</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- ── Main content ───────────────────────────────── -->
+<main class="main">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span>›</span>
+      <a href="../index.html">Linear Algebra</a>
+      <span>›</span>
+      Determinants
+    </div>
+    <h1>Determinants: Measuring How Space Gets Scaled</h1>
+    <div class="subtitle">From 3Blue1Brown, Essence of Linear Algebra, Chapter 6</div>
+    <div class="page-meta">
+      <span class="tag tag-section">Linear Algebra</span>
+      <span class="tag tag-lesson">Lesson 06</span>
+    </div>
+  </div>
+
+
+  <!-- ── 1. Concept in Plain English ───────────────── -->
+  <div class="section">
+    <div class="section-label">Concept</div>
+    <h2>A Single Number That Captures Everything About Scaling</h2>
+
+    <p>
+      Every linear transformation stretches, squishes, or flips space in some way. The determinant
+      is the number that tells you by exactly how much. Specifically, it tells you how much a
+      transformation scales areas (in 2D) or volumes (in 3D).
+    </p>
+
+    <div class="callout">
+      <strong>The core idea:</strong> If the determinant of a matrix is 3, any region of space gets
+      scaled to 3 times its original area after that transformation. If it is 0.5, regions shrink
+      to half. If it is 0, space gets flattened entirely into a lower dimension.
+    </div>
+
+    <div class="video-embed">
+      <video autoplay loop muted playsinline>
+        <source src="../animations/Determinants.mp4" type="video/mp4" />
+      </video>
+    </div>
+
+    <h3>Zero determinant: rank deficiency</h3>
+    <p>
+      A determinant of zero means the transformation squishes space down into a lower dimension.
+      A 2D matrix with det = 0 collapses the entire plane onto a single line (or point). The
+      columns of that matrix are linearly dependent, which means they lie on the same line.
+      This is exactly what happened with the matrix [[1, 2], [2, 4]] in the code: column 2 is
+      just 2 times column 1, so the transformation flattens the plane.
+    </p>
+
+    <h3>Negative determinant: orientation flipped</h3>
+    <p>
+      The sign of the determinant tells you whether the transformation flipped the orientation of
+      space. Think of it like flipping a sheet of paper over. As the basis vectors \(\hat{i}\) and
+      \(\hat{j}\) slowly rotate toward each other, the area between them shrinks. When they align
+      completely, the determinant hits zero. If the transformation keeps going past that point, the
+      orientation flips and the determinant goes negative. The absolute value still tells you the
+      scaling factor. The sign just tells you whether space was flipped.
+    </p>
+
+    <h3>Multiplicative property</h3>
+    <p>
+      If you apply transformation A followed by transformation B, the total scaling is just the
+      product of the individual scalings. This is why
+      \(\det(M_1 \cdot M_2) = \det(M_1) \cdot \det(M_2)\).
+      Applying two transformations in sequence multiplies their scaling factors.
+    </p>
+  </div>
+
+
+  <!-- ── 2. Key Formulas ────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Formulas</div>
+    <h2>Key Formulas</h2>
+
+    <div class="formula-grid">
+
+      <div class="formula-card">
+        <div class="formula-name">2x2 determinant</div>
+        <div class="formula-math">
+          \[
+          \det\begin{bmatrix} a & b \\ c & d \end{bmatrix} = ad - bc
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Multiplicative property</div>
+        <div class="formula-math">
+          \[
+          \det(M_1 \cdot M_2) = \det(M_1) \cdot \det(M_2)
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Zero determinant means linear dependence</div>
+        <div class="formula-math">
+          \[
+          \det(M) = 0 \iff \text{columns of } M \text{ are linearly dependent}
+          \]
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── 3. Code Examples ───────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Code</div>
+    <h2>Code Examples</h2>
+    <p>
+      All code below is taken verbatim from <code style="font-family:var(--font-mono);font-size:0.85em;">lesson-06-determinants.py</code>.
+    </p>
+
+    <!-- Part 1 -->
+    <h3>Part 1: Computing determinants</h3>
+    <p>
+      Three matrices: a shear (area preserved), a squish (area halved), and a rank-deficient matrix
+      with zero determinant.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-06-determinants.py</span>
+      </div>
+      <pre><code><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+strech_matrix <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">1</span>, <span class="op">-</span><span class="num">1</span>],
+    [<span class="num">0</span>,  <span class="num">1</span>]
+])
+
+sqiush_matrix <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">0.5</span>, <span class="num">0</span>  ],
+    [<span class="num">0</span>,   <span class="num">0.5</span>]
+])
+
+no_det_matrix <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">1</span>, <span class="num">2</span>],
+    [<span class="num">2</span>, <span class="num">4</span>]
+])
+
+d1 <span class="op">=</span> np.linalg.<span class="fn">det</span>(strech_matrix)
+d2 <span class="op">=</span> np.linalg.<span class="fn">det</span>(sqiush_matrix)
+d3 <span class="op">=</span> np.linalg.<span class="fn">det</span>(no_det_matrix)
+
+<span class="fn">print</span>(<span class="st">f"Stretch matrix determinant: {d1}"</span>)
+<span class="fn">print</span>(<span class="st">f"Squish matrix determinant: {d2}"</span>)
+<span class="fn">print</span>(<span class="st">f"Zero determinant matrix: {d3}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Stretch matrix determinant: 1.0
+Squish matrix determinant: 0.25
+Zero determinant matrix: 0.0</pre>
+    </div>
+
+    <!-- Part 2 -->
+    <h3>Part 2: Negative determinant</h3>
+    <p>
+      A matrix that flips the x-axis. The determinant is -1: scaling factor is 1 (no size change),
+      but orientation is flipped.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-06-determinants.py</span>
+      </div>
+      <pre><code>neg_d_matrix <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="op">-</span><span class="num">1</span>, <span class="num">0</span>],
+    [ <span class="num">0</span>, <span class="num">1</span>]
+])
+
+det <span class="op">=</span> np.linalg.<span class="fn">det</span>(neg_d_matrix)
+<span class="fn">print</span>(<span class="st">f"Determinant of flipped orientation matrix: {det}"</span>)
+
+<span class="cm"># a negative determinant means the transformation flipped the orientation of space</span>
+<span class="cm"># as i-hat and j-hat slowly rotate toward each other, the area between them shrinks</span>
+<span class="cm"># when they line up completely, the determinant hits 0</span>
+<span class="cm"># if the transformation keeps going past that point, the orientation flips</span>
+<span class="cm"># and the determinant continues into negative numbers</span>
+<span class="cm"># the absolute value of the determinant still tells you how much area was scaled</span>
+<span class="cm"># the negative sign just tells you orientation was flipped</span></code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Determinant of flipped orientation matrix: -1.0</pre>
+    </div>
+
+    <!-- Part 3 -->
+    <h3>Part 3: Multiplicative property</h3>
+    <p>
+      Verifying that applying two transformations in sequence multiplies their determinants.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-06-determinants.py</span>
+      </div>
+      <pre><code>m1 <span class="op">=</span> np.<span class="fn">array</span>([[<span class="num">2</span>, <span class="num">3</span>], [<span class="num">7</span>, <span class="num">5</span>]])
+m2 <span class="op">=</span> np.<span class="fn">array</span>([[<span class="num">5</span>, <span class="num">4</span>], [<span class="num">9</span>, <span class="num">0</span>]])
+
+<span class="cm"># det(m1 * m2)</span>
+det1 <span class="op">=</span> np.linalg.<span class="fn">det</span>(np.<span class="fn">matmul</span>(m1, m2))
+
+<span class="cm"># det(m1) * det(m2)</span>
+det2 <span class="op">=</span> np.linalg.<span class="fn">det</span>(m1) <span class="op">*</span> np.linalg.<span class="fn">det</span>(m2)
+
+<span class="fn">print</span>(<span class="st">f"Are they equal?: {np.<span class="fn">isclose</span>(det1, det2)}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Are they equal?: True</pre>
+    </div>
+  </div>
+
+
+  <!-- ── 4. Connection to AI ────────────────────────── -->
+  <div class="section">
+    <div class="section-label">AI Connection</div>
+    <h2>How This Connects to AI</h2>
+
+    <div class="ai-connection">
+      <div class="ai-label">Why this matters for machine learning</div>
+
+      <p>
+        A zero determinant in a weight matrix means rank deficiency: the layer is squishing input
+        data into a lower-dimensional subspace and losing information permanently. No amount of
+        further training can recover what was lost. This is why weight initialization matters.
+        Random initialization (like Xavier or Kaiming init) is specifically designed to keep
+        matrices full rank so no information is destroyed before training even begins.
+      </p>
+
+      <p>
+        The multiplicative property connects directly to the vanishing gradient problem. During
+        backpropagation, gradients flow backwards through every layer as a chain of matrix
+        multiplications. The determinant of the overall product equals the product of each
+        layer's determinant. If each weight matrix slightly squishes space (det slightly less
+        than 1), multiplying many of them together collapses the gradient signal toward zero.
+        This is not a coincidence: it is exactly what the determinant is telling you.
+      </p>
+    </div>
+  </div>
+
+
+  <footer class="page-footer">
+    ML Math Foundations · Linear Algebra · Lesson 06: Determinants
+  </footer>
+
+</main>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
