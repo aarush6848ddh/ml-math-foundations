@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 7: Inverse Matrices, Column Space, and Null Space | ML Math Foundations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<!-- ── GitHub link ────────────────────────────────── -->
+<a href="https://github.com/aarush6848ddh/ml-math-foundations" target="_blank" rel="noopener" class="github-btn">
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  GitHub
+</a>
+
+<!-- ── Mobile menu button ─────────────────────────── -->
+<button id="menu-btn" class="menu-btn" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ── Sidebar ────────────────────────────────────── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-logo">
+    <a href="../index.html">
+      <div class="site-title">ML Math Foundations</div>
+      <div class="site-sub">A personal study wiki</div>
+    </a>
+  </div>
+
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+    </ul>
+
+    <div class="nav-section">Linear Algebra</div>
+    <ul>
+      <li><a href="vectors.html">Lesson 1: Vectors</a></li>
+      <li><a href="span.html">Lesson 2: Span</a></li>
+      <li><a href="matrices.html">Lesson 3: Matrices</a></li>
+      <li><a href="matrix-multiplication.html">Lesson 4: Matrix Multiplication</a></li>
+      <li><a href="3d-transformations.html">Lesson 5: 3D Transformations</a></li>
+      <li><a href="determinants.html">Lesson 6: Determinants</a></li>
+      <li><a href="inverse-column-null.html" class="active">Lesson 7: Inverse, Column Space, Null Space</a></li>
+      <!-- ADD NEW LINEAR ALGEBRA LESSONS HERE -->
+    </ul>
+
+    <div class="nav-section">Calculus</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+    </ul>
+
+    <div class="nav-section">Probability &amp; Stats</div>
+    <ul>
+      <li><a class="coming-soon">Coming soon</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- ── Main content ───────────────────────────────── -->
+<main class="main">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span>›</span>
+      <a href="../index.html">Linear Algebra</a>
+      <span>›</span>
+      Inverse Matrices, Column Space, and Null Space
+    </div>
+    <h1>Inverse Matrices, Column Space, and Null Space</h1>
+    <div class="subtitle">From 3Blue1Brown, Essence of Linear Algebra, Chapter 7</div>
+    <div class="page-meta">
+      <span class="tag tag-section">Linear Algebra</span>
+      <span class="tag tag-lesson">Lesson 07</span>
+    </div>
+  </div>
+
+
+  <!-- ── 1. Concept in Plain English ───────────────── -->
+  <div class="section">
+    <div class="section-label">Concept</div>
+    <h2>Undoing a Transformation</h2>
+
+    <p>
+      Every linear transformation is a function that takes a vector and produces a new one. The
+      inverse matrix is simply the function that undoes that transformation. If matrix A rotates
+      space 90 degrees clockwise, then A inverse rotates it 90 degrees counterclockwise, putting
+      everything back where it started.
+    </p>
+
+    <div class="callout">
+      <strong>The core idea:</strong> The inverse of A, written \(A^{-1}\), satisfies
+      \(A^{-1}A = I\), where \(I\) is the identity matrix. Applying the transformation and then
+      its inverse leaves every vector unchanged.
+    </div>
+
+    <h3>Solving Ax = b</h3>
+    <p>
+      The most useful application of the inverse is solving the system \(Ax = b\). You have a
+      transformation A, a known output vector b, and you want to find which input vector x
+      produced it. If A is invertible, the answer is \(x = A^{-1}b\). You are literally tracing
+      the transformation backwards.
+    </p>
+
+    <h3>When the inverse does not exist</h3>
+    <p>
+      If the determinant of A is zero, the transformation squishes space into a lower dimension.
+      You cannot invert a squish: many different input vectors all land on the same output, so
+      there is no way to know which one you started from. The matrix is called singular, and
+      NumPy will raise a <code>LinAlgError</code> if you try to invert it.
+    </p>
+
+    <h3>Column space and rank</h3>
+    <p>
+      The column space of a matrix is the set of all possible output vectors. It is the span of
+      the matrix's columns. A full-rank 2x2 matrix has column space equal to all of 2D space.
+      A rank-deficient matrix's column space is just a line through the origin. Rank is the
+      dimension of that column space.
+    </p>
+
+    <h3>Null space</h3>
+    <p>
+      The null space is the set of all input vectors that the transformation maps to the zero
+      vector. For a full-rank matrix, only the zero vector itself maps to zero. For a rank-deficient
+      matrix, an entire line (or plane) of vectors all collapse to the origin. These vectors are
+      invisible to the transformation.
+    </p>
+  </div>
+
+
+  <!-- ── 2. Key Formulas ────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Formulas</div>
+    <h2>Key Formulas</h2>
+
+    <div class="formula-grid">
+
+      <div class="formula-card">
+        <div class="formula-name">Inverse definition</div>
+        <div class="formula-math">
+          \[
+          A^{-1}A = AA^{-1} = I
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Solving a linear system</div>
+        <div class="formula-math">
+          \[
+          Ax = b \implies x = A^{-1}b
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">2x2 inverse formula</div>
+        <div class="formula-math">
+          \[
+          \begin{bmatrix} a & b \\ c & d \end{bmatrix}^{-1}
+          = \frac{1}{ad - bc}
+          \begin{bmatrix} d & -b \\ -c & a \end{bmatrix}
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Null space definition</div>
+        <div class="formula-math">
+          \[
+          \text{null}(A) = \{ x \mid Ax = \mathbf{0} \}
+          \]
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── 3. Code Examples ───────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Code</div>
+    <h2>Code Examples</h2>
+    <p>
+      All code below is taken verbatim from <code style="font-family:var(--font-mono);font-size:0.85em;">lesson-07-inverse-column-null.py</code>.
+    </p>
+
+    <!-- Part 1 -->
+    <h3>Part 1: Solving a linear system</h3>
+    <p>
+      Compute the inverse of A and multiply it by b to find x. Then verify that A @ x gives back b.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-07-inverse-column-null.py</span>
+      </div>
+      <pre><code><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+matrix_a <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">1</span>, <span class="num">4</span>],
+    [<span class="num">3</span>, <span class="num">5</span>]
+])
+
+vector_b <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">7</span>])
+
+a_inv <span class="op">=</span> np.linalg.<span class="fn">inv</span>(matrix_a)
+x <span class="op">=</span> np.<span class="fn">matmul</span>(a_inv, vector_b)
+verification <span class="op">=</span> np.<span class="fn">matmul</span>(matrix_a, x)
+
+<span class="fn">print</span>(<span class="st">f"Solution x: {x}"</span>)
+<span class="fn">print</span>(<span class="st">f"Verification A @ x: {verification}"</span>)
+<span class="fn">print</span>(<span class="st">f"Matches b: {np.<span class="fn">allclose</span>(verification, vector_b)}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Solution x: [ 3.28571429 -0.57142857]
+Verification A @ x: [1. 7.]
+Matches b: True</pre>
+    </div>
+
+    <!-- Part 2 -->
+    <h3>Part 2: Column space and rank</h3>
+    <p>
+      A full-rank matrix spans all of 2D space. A rank-deficient matrix squishes the plane onto
+      a single line. <code>np.linalg.matrix_rank</code> counts the number of linearly independent
+      columns.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-07-inverse-column-null.py</span>
+      </div>
+      <pre><code><span class="cm"># full rank: columns are linearly independent, spans full 2D space</span>
+full_rank <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">1</span>, <span class="num">2</span>],
+    [<span class="num">3</span>, <span class="num">4</span>]
+])
+
+<span class="cm"># rank deficient: column 2 = 2 * column 1, collapses to a line</span>
+rank_deficient <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">1</span>, <span class="num">2</span>],
+    [<span class="num">2</span>, <span class="num">4</span>]
+])
+
+rank1 <span class="op">=</span> np.linalg.<span class="fn">matrix_rank</span>(full_rank)
+rank2 <span class="op">=</span> np.linalg.<span class="fn">matrix_rank</span>(rank_deficient)
+
+<span class="fn">print</span>(<span class="st">f"Full rank matrix rank: {rank1}"</span>)
+<span class="fn">print</span>(<span class="st">f"Rank deficient matrix rank: {rank2}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Full rank matrix rank: 2
+Rank deficient matrix rank: 1</pre>
+    </div>
+
+    <!-- Part 3 -->
+    <h3>Part 3: Null space</h3>
+    <p>
+      For the rank-deficient matrix, the vector [2, -1] maps exactly to zero. That is because
+      2 times column 1 minus 1 times column 2 cancels out. The vector lives in the null space:
+      the transformation makes it invisible.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-07-inverse-column-null.py</span>
+      </div>
+      <pre><code>null_vector <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">2</span>, <span class="op">-</span><span class="num">1</span>])
+result <span class="op">=</span> np.<span class="fn">matmul</span>(rank_deficient, null_vector)
+<span class="fn">print</span>(<span class="st">f"rank_deficient @ [2,-1] = {result}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>rank_deficient @ [2,-1] = [0 0]</pre>
+    </div>
+
+    <!-- Part 4 -->
+    <h3>Part 4: Irreversibility</h3>
+    <p>
+      Attempting to invert a singular matrix raises a <code>LinAlgError</code>. Once information
+      is destroyed by a rank-deficient transformation, it cannot be recovered.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-07-inverse-column-null.py</span>
+      </div>
+      <pre><code>singular_matrix <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">1</span>, <span class="num">2</span>],
+    [<span class="num">2</span>, <span class="num">4</span>]
+])
+
+<span class="kw">try</span>:
+    inverse <span class="op">=</span> np.linalg.<span class="fn">inv</span>(singular_matrix)
+    <span class="fn">print</span>(<span class="st">f"Inverse: {inverse}"</span>)
+<span class="kw">except</span> np.linalg.LinAlgError <span class="kw">as</span> e:
+    <span class="fn">print</span>(<span class="st">f"Cannot invert: {e}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Cannot invert: Singular matrix</pre>
+    </div>
+  </div>
+
+
+  <!-- ── 4. Connection to AI ────────────────────────── -->
+  <div class="section">
+    <div class="section-label">AI Connection</div>
+    <h2>How This Connects to AI</h2>
+
+    <div class="ai-connection">
+      <div class="ai-label">Why this matters for machine learning</div>
+
+      <p>
+        Solving \(Ax = b\) is exactly what a neural network does during inference. The network
+        learns the matrix A during training: the weight matrix that transforms an input into an
+        output. At inference time it solves for the output given the input, one layer at a time.
+        Understanding this as a linear system makes the math behind forward passes intuitive.
+      </p>
+
+      <p>
+        Rank-deficient weight matrices destroy information permanently. Just like a singular matrix
+        has no inverse, a layer with collapsed rank cannot be undone. Data that maps to the null
+        space is gone forever. This is why full-rank weight matrices are critical for network
+        capacity, and why initialization schemes like Xavier and Kaiming init are carefully
+        designed to keep weight matrices well-conditioned from the start.
+      </p>
+
+      <p>
+        The null space of a weight matrix represents features the layer ignores completely. If an
+        important input feature happens to lie in the null space, the network can never learn from
+        it, no matter how long you train. This is one reason why architecture design and
+        feature engineering matter even in deep learning.
+      </p>
+    </div>
+  </div>
+
+
+  <footer class="page-footer">
+    ML Math Foundations · Linear Algebra · Lesson 07: Inverse Matrices, Column Space, and Null Space
+  </footer>
+
+</main>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
