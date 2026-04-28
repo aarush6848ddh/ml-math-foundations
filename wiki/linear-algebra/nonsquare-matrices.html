@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 8: Non-Square Matrices | ML Math Foundations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<!-- ── GitHub link ────────────────────────────────── -->
+<a href="https://github.com/aarush6848ddh/ml-math-foundations" target="_blank" rel="noopener" class="github-btn">
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  GitHub
+</a>
+
+<!-- ── Mobile menu button ─────────────────────────── -->
+<button id="menu-btn" class="menu-btn" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ── Sidebar ────────────────────────────────────── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-logo">
+    <a href="../index.html">
+      <div class="site-title">ML Math Foundations</div>
+      <div class="site-sub">A personal study wiki</div>
+    </a>
+  </div>
+
+  <nav></nav>
+</aside>
+
+<!-- ── Main content ───────────────────────────────── -->
+<main class="main">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span>›</span>
+      <a href="../index.html">Linear Algebra</a>
+      <span>›</span>
+      Non-Square Matrices
+    </div>
+    <h1>Non-Square Matrices</h1>
+    <div class="subtitle">From 3Blue1Brown, Essence of Linear Algebra, Chapter 8</div>
+    <div class="page-meta">
+      <span class="tag tag-section">Linear Algebra</span>
+      <span class="tag tag-lesson">Lesson 08</span>
+    </div>
+  </div>
+
+
+  <!-- ── 1. Concept in Plain English ───────────────── -->
+  <div class="section">
+    <div class="section-label">Concept</div>
+    <h2>Transformations Between Different Dimensions</h2>
+
+    <p>
+      Every matrix we have seen so far has been square: 2x2 or 3x3. That means the input and
+      output live in the same number of dimensions. But in real systems, and especially in neural
+      networks, you almost always need to change the number of dimensions. That is exactly what a
+      non-square matrix does.
+    </p>
+
+    <div class="callout">
+      <strong>The core idea:</strong> An \(m \times n\) matrix transforms a vector from
+      \(\mathbb{R}^n\) to \(\mathbb{R}^m\). The number of columns tells you the input dimension.
+      The number of rows tells you the output dimension.
+    </div>
+
+    <h3>Mapping up: 2D to 3D</h3>
+    <p>
+      A 3x2 matrix takes a 2D vector and produces a 3D vector. You are lifting a point from a
+      plane into a higher-dimensional space. The two columns of the matrix are the basis vectors
+      of the 2D plane, but expressed as 3D coordinates. The result is a 2D plane embedded inside
+      3D space.
+    </p>
+
+    <h3>Mapping down: 3D to 2D</h3>
+    <p>
+      A 2x3 matrix takes a 3D vector and produces a 2D vector. You are projecting down, collapsing
+      one dimension. Information can be lost in this direction: multiple 3D points may land on the
+      same 2D output. The matrix cannot be inverted.
+    </p>
+
+    <h3>The shape rule</h3>
+    <p>
+      For the multiplication \(Av\) to work, the number of columns in \(A\) must equal the length
+      of \(v\). The output has as many entries as \(A\) has rows. This is the same dimension
+      compatibility rule you use when chaining layers in a neural network.
+    </p>
+  </div>
+
+
+  <!-- ── 2. Key Formulas ────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Formulas</div>
+    <h2>Key Formulas</h2>
+
+    <div class="formula-grid">
+
+      <div class="formula-card">
+        <div class="formula-name">Shape of output</div>
+        <div class="formula-math">
+          \[
+          A_{m \times n} \, v_{n \times 1} = w_{m \times 1}
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">2D to 3D example</div>
+        <div class="formula-math">
+          \[
+          \begin{bmatrix} 1 & 0 \\ 3 & 5 \\ 9 & 2 \end{bmatrix}
+          \begin{bmatrix} x \\ y \end{bmatrix}
+          = \begin{bmatrix} x \\ 3x + 5y \\ 9x + 2y \end{bmatrix}
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">3D to 2D example</div>
+        <div class="formula-math">
+          \[
+          \begin{bmatrix} a & b & c \\ d & e & f \end{bmatrix}
+          \begin{bmatrix} x \\ y \\ z \end{bmatrix}
+          = \begin{bmatrix} ax + by + cz \\ dx + ey + fz \end{bmatrix}
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Compatibility rule</div>
+        <div class="formula-math">
+          \[
+          \underbrace{A}_{m \times n} \cdot \underbrace{B}_{n \times p} = \underbrace{C}_{m \times p}
+          \]
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── 3. Code Examples ───────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Code</div>
+    <h2>Code Examples</h2>
+    <p>
+      All code below is taken verbatim from <code style="font-family:var(--font-mono);font-size:0.85em;">lesson-08-nonsquare-matrices.py</code>.
+    </p>
+
+    <!-- Part 1 -->
+    <h3>Part 1: 2D to 3D transformation</h3>
+    <p>
+      A 3x2 matrix takes a 2D input vector and lifts it into 3D space. The output shape changes
+      from (2,) to (3,).
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-08-nonsquare-matrices.py</span>
+      </div>
+      <pre><code><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+three_by_two <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">1</span>, <span class="num">0</span>],
+    [<span class="num">3</span>, <span class="num">5</span>],
+    [<span class="num">9</span>, <span class="num">2</span>]
+])
+
+v <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">4</span>])
+
+t <span class="op">=</span> np.<span class="fn">matmul</span>(three_by_two, v)
+
+<span class="fn">print</span>(<span class="st">f"Input vector: {v}"</span>)
+<span class="fn">print</span>(<span class="st">f"Input shape: {v.shape}"</span>)
+<span class="fn">print</span>(<span class="st">f"Output vector: {t}"</span>)
+<span class="fn">print</span>(<span class="st">f"Output shape: {t.shape}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Input vector: [1 4]
+Input shape: (2,)
+Output vector: [ 1 23 17]
+Output shape: (3,)</pre>
+    </div>
+
+    <!-- Part 2 -->
+    <h3>Part 2: 3D to 2D transformation</h3>
+    <p>
+      A 2x3 matrix takes a 3D input vector and projects it down to 2D. The output shape changes
+      from (3,) to (2,).
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-08-nonsquare-matrices.py</span>
+      </div>
+      <pre><code>two_by_three <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">4</span>, <span class="num">6</span>, <span class="num">3</span>],
+    [<span class="num">7</span>, <span class="num">2</span>, <span class="num">9</span>]
+])
+
+v2 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">4</span>, <span class="num">6</span>, <span class="num">2</span>])
+
+t2 <span class="op">=</span> np.<span class="fn">matmul</span>(two_by_three, v2)
+
+<span class="fn">print</span>(<span class="st">f"Input vector: {v2}"</span>)
+<span class="fn">print</span>(<span class="st">f"Input shape: {v2.shape}"</span>)
+<span class="fn">print</span>(<span class="st">f"Output vector: {t2}"</span>)
+<span class="fn">print</span>(<span class="st">f"Output shape: {t2.shape}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Input vector: [4 6 2]
+Input shape: (3,)
+Output vector: [58 64]
+Output shape: (2,)</pre>
+    </div>
+  </div>
+
+
+  <!-- ── 4. Connection to AI ────────────────────────── -->
+  <div class="section">
+    <div class="section-label">AI Connection</div>
+    <h2>How This Connects to AI</h2>
+
+    <div class="ai-connection">
+      <div class="ai-label">Why this matters for machine learning</div>
+
+      <p>
+        Non-square matrices are the fundamental building block of every neural network. Every
+        linear layer is just an \(m \times n\) matrix multiplying an input vector, changing its
+        dimensionality as data flows through the network.
+      </p>
+
+      <p>
+        The embedding layer in a transformer is a perfect example of mapping up. A token ID is a
+        single integer, but the model represents it as a rich 512D or 1024D vector. The embedding
+        matrix is a non-square matrix that lifts each token from a one-hot representation into a
+        high-dimensional space where meaning can be encoded.
+      </p>
+
+      <p>
+        The output projection layer at the end of a transformer does the opposite. It takes the
+        high-dimensional hidden state and maps it down to vocabulary size (often 50,000 or more
+        dimensions) so the model can produce a probability distribution over the next token. That
+        is a non-square matrix mapping from high dimension to low dimension.
+      </p>
+
+      <p>
+        When you see a layer defined as <code>nn.Linear(512, 2048)</code> in PyTorch, the weight
+        matrix is 2048x512. It maps every 512D input up to 2048D. This is the feed-forward
+        expansion inside a transformer block, and it is just a non-square matrix transformation.
+      </p>
+    </div>
+  </div>
+
+
+  <footer class="page-footer">
+    ML Math Foundations · Linear Algebra · Lesson 08: Non-Square Matrices
+  </footer>
+
+</main>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
