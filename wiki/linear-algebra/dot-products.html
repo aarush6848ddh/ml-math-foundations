@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 9: Dot Products | ML Math Foundations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<!-- ── GitHub link ────────────────────────────────── -->
+<a href="https://github.com/aarush6848ddh/ml-math-foundations" target="_blank" rel="noopener" class="github-btn">
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  GitHub
+</a>
+
+<!-- ── Mobile menu button ─────────────────────────── -->
+<button id="menu-btn" class="menu-btn" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ── Sidebar ────────────────────────────────────── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-logo">
+    <a href="../index.html">
+      <div class="site-title">ML Math Foundations</div>
+      <div class="site-sub">A personal study wiki</div>
+    </a>
+  </div>
+
+  <nav></nav>
+</aside>
+
+<!-- ── Main content ───────────────────────────────── -->
+<main class="main">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span>›</span>
+      <a href="../index.html">Linear Algebra</a>
+      <span>›</span>
+      Dot Products
+    </div>
+    <h1>Dot Products</h1>
+    <div class="subtitle">From 3Blue1Brown, Essence of Linear Algebra, Chapter 9</div>
+    <div class="page-meta">
+      <span class="tag tag-section">Linear Algebra</span>
+      <span class="tag tag-lesson">Lesson 09</span>
+    </div>
+  </div>
+
+
+  <!-- ── 1. Concept in Plain English ───────────────── -->
+  <div class="section">
+    <div class="section-label">Concept</div>
+    <h2>Measuring How Much Two Vectors Agree</h2>
+
+    <p>
+      The dot product takes two vectors of the same length and produces a single number. That number
+      tells you how much the two vectors point in the same direction. It is one of the most
+      important operations in all of linear algebra, and it shows up constantly in machine learning.
+    </p>
+
+    <div class="callout">
+      <strong>The core idea:</strong> multiply corresponding components and add them up.
+      \(\mathbf{v} \cdot \mathbf{w} = v_1 w_1 + v_2 w_2 + \cdots + v_n w_n\)
+    </div>
+
+    <h3>What the sign tells you</h3>
+    <p>
+      The dot product is positive when the two vectors point in roughly the same direction,
+      zero when they are perpendicular, and negative when they point in roughly opposite directions.
+      This is the geometric interpretation, and it is exactly what you need to understand attention.
+    </p>
+
+    <h3>Projection</h3>
+    <p>
+      There is a deeper geometric meaning. The dot product of \(\mathbf{v}\) with a unit vector
+      \(\hat{u}\) gives you the length of the shadow that \(\mathbf{v}\) casts onto \(\hat{u}\).
+      This is called the projection of \(\mathbf{v}\) onto \(\hat{u}\). Multiply that length by
+      \(\hat{u}\) and you get the projection vector, which is the component of \(\mathbf{v}\) that
+      lies along \(\hat{u}\).
+    </p>
+
+    <h3>Connection to matrix multiplication</h3>
+    <p>
+      A dot product is also a special case of matrix multiplication. If you write \(\mathbf{v}\) as
+      a row vector and \(\mathbf{w}\) as a column vector, then \(\mathbf{v} \cdot \mathbf{w} =
+      \mathbf{v}^T \mathbf{w}\). This is why the dot product is sometimes called an inner product,
+      and it is how matrix-vector multiplication is computed row by row.
+    </p>
+  </div>
+
+
+  <!-- ── 2. Key Formulas ────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Formulas</div>
+    <h2>Key Formulas</h2>
+
+    <div class="formula-grid">
+
+      <div class="formula-card">
+        <div class="formula-name">Algebraic definition</div>
+        <div class="formula-math">
+          \[
+          \mathbf{v} \cdot \mathbf{w} = \sum_{i=1}^{n} v_i w_i
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Geometric definition</div>
+        <div class="formula-math">
+          \[
+          \mathbf{v} \cdot \mathbf{w} = \|\mathbf{v}\| \, \|\mathbf{w}\| \cos\theta
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Projection length onto unit vector</div>
+        <div class="formula-math">
+          \[
+          \text{proj length} = \mathbf{v} \cdot \hat{u}
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Projection vector</div>
+        <div class="formula-math">
+          \[
+          \text{proj}_{\hat{u}} \mathbf{v} = (\mathbf{v} \cdot \hat{u}) \, \hat{u}
+          \]
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── 3. Code Examples ───────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Code</div>
+    <h2>Code Examples</h2>
+    <p>
+      All code below is taken verbatim from <code style="font-family:var(--font-mono);font-size:0.85em;">lesson-09-dot-products.py</code>.
+    </p>
+
+    <!-- Part 1 -->
+    <h3>Part 1: Numerical dot product</h3>
+    <p>
+      Computing the dot product manually by multiplying components and summing, then verifying with
+      NumPy.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-09-dot-products.py</span>
+      </div>
+      <pre><code><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+v1 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">2</span>])
+v2 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">4</span>, <span class="num">-5</span>])
+
+dot_prod <span class="op">=</span> v1[<span class="num">0</span>] <span class="op">*</span> v2[<span class="num">0</span>] <span class="op">+</span> v1[<span class="num">1</span>] <span class="op">*</span> v2[<span class="num">1</span>]
+
+numpy_dot <span class="op">=</span> np.<span class="fn">dot</span>(v1, v2)
+
+<span class="fn">print</span>(<span class="st">f"Manual: {dot_prod}"</span>)
+<span class="fn">print</span>(<span class="st">f"NumPy: {numpy_dot}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Manual: -6
+NumPy: -6</pre>
+    </div>
+
+    <!-- Part 2 -->
+    <h3>Part 2: Geometric interpretation</h3>
+    <p>
+      Verifying the sign rule: same direction gives positive, perpendicular gives zero, opposing
+      gives negative.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-09-dot-products.py</span>
+      </div>
+      <pre><code><span class="co"># similar direction, dot product should be positive</span>
+v1 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">2</span>])
+v2 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">2</span>, <span class="num">3</span>])
+<span class="fn">print</span>(<span class="st">f"Similar direction: {np.dot(v1, v2)}"</span>)
+
+<span class="co"># perpendicular, dot product should be zero</span>
+v3 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">3</span>, <span class="num">4</span>])
+v4 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">4</span>, <span class="num">-3</span>])
+<span class="fn">print</span>(<span class="st">f"Perpendicular: {np.dot(v3, v4)}"</span>)
+
+<span class="co"># opposing direction, dot product should be negative</span>
+v5 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">2</span>])
+v6 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">-2</span>, <span class="num">-9</span>])
+<span class="fn">print</span>(<span class="st">f"Opposing Directions: {np.dot(v5, v6)}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Similar direction: 8
+Perpendicular: 0
+Opposing Directions: -20</pre>
+    </div>
+
+    <!-- Part 3 -->
+    <h3>Part 3: Projection</h3>
+    <p>
+      Dotting a vector with a unit vector gives the projection length directly. Multiplying that
+      length by the unit vector gives the projection vector.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-09-dot-products.py</span>
+      </div>
+      <pre><code>v <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">3</span>, <span class="num">4</span>])
+u <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">0</span>])  <span class="co"># unit vector pointing along x-axis</span>
+
+<span class="fn">print</span>(<span class="st">f"Length of u: {np.linalg.norm(u)}"</span>)
+
+<span class="co"># the dot product with a unit vector gives you the projection length directly</span>
+projection_length <span class="op">=</span> np.<span class="fn">dot</span>(v, u)
+<span class="fn">print</span>(<span class="st">f"Projection of v onto u: {projection_length}"</span>)
+
+<span class="co"># the actual projection vector is the length times the unit vector</span>
+projection_vector <span class="op">=</span> projection_length <span class="op">*</span> u
+<span class="fn">print</span>(<span class="st">f"Projection vector: {projection_vector}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Length of u: 1.0
+Projection of v onto u: 3
+Projection vector: [3 0]</pre>
+    </div>
+  </div>
+
+
+  <!-- ── 4. Connection to AI ────────────────────────── -->
+  <div class="section">
+    <div class="section-label">AI Connection</div>
+    <h2>How This Connects to AI</h2>
+
+    <div class="ai-connection">
+      <div class="ai-label">Why this matters for machine learning</div>
+
+      <p>
+        The dot product is the single most important operation in transformer models. Attention
+        asks one question: "how relevant is this token to that token?" It answers that question
+        by computing a dot product between their vector representations. A high dot product means
+        the two tokens are highly relevant to each other. A low or negative dot product means
+        they are not.
+      </p>
+
+      <p>
+        In the attention mechanism, every token is represented by a query vector and a key vector.
+        The attention score between two tokens is the dot product of a query with a key:
+        \(\text{score} = \mathbf{q} \cdot \mathbf{k}\). These scores are then passed through a
+        softmax to produce weights, and those weights determine how much each value vector
+        contributes to the output. The dot product is the entire mechanism by which a transformer
+        decides what to pay attention to.
+      </p>
+
+      <p>
+        The same idea appears in cosine similarity, which is just a normalized dot product.
+        When you search for similar documents or similar embeddings in a vector database, you are
+        computing dot products. When a language model retrieves relevant context in RAG, it is
+        comparing dot products between query embeddings and document embeddings.
+      </p>
+
+      <p>
+        Projection also matters directly. In PCA and dimensionality reduction, you project
+        high-dimensional data onto a lower-dimensional subspace using dot products. The projection
+        captures the most important components of the data while discarding the rest. This is how
+        you compress a 4096D embedding down to something smaller without losing too much information.
+      </p>
+    </div>
+  </div>
+
+
+  <footer class="page-footer">
+    ML Math Foundations · Linear Algebra · Lesson 09: Dot Products
+  </footer>
+
+</main>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

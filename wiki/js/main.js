@@ -25,6 +25,7 @@ function buildNav() {
       <li><a href="${la}determinants.html">Lesson 6: Determinants</a></li>
       <li><a href="${la}inverse-column-null.html">Lesson 7: Inverse, Column Space, Null Space</a></li>
       <li><a href="${la}nonsquare-matrices.html">Lesson 8: Non-Square Matrices</a></li>
+      <li><a href="${la}dot-products.html">Lesson 9: Dot Products</a></li>
     </ul>
 
     <div class="nav-section">Calculus</div>
