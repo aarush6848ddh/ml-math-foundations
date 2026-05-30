@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 10: Cross Products | ML Math Foundations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<!-- ── GitHub link ────────────────────────────────── -->
+<a href="https://github.com/aarush6848ddh/ml-math-foundations" target="_blank" rel="noopener" class="github-btn">
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  GitHub
+</a>
+
+<!-- ── Mobile menu button ─────────────────────────── -->
+<button id="menu-btn" class="menu-btn" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ── Sidebar ────────────────────────────────────── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-logo">
+    <a href="../index.html">
+      <div class="site-title">ML Math Foundations</div>
+      <div class="site-sub">A personal study wiki</div>
+    </a>
+  </div>
+
+  <nav></nav>
+</aside>
+
+<!-- ── Main content ───────────────────────────────── -->
+<main class="main">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span>›</span>
+      <a href="../index.html">Linear Algebra</a>
+      <span>›</span>
+      Cross Products
+    </div>
+    <h1>Cross Products</h1>
+    <div class="subtitle">From 3Blue1Brown, Essence of Linear Algebra, Chapter 10</div>
+    <div class="page-meta">
+      <span class="tag tag-section">Linear Algebra</span>
+      <span class="tag tag-lesson">Lesson 10</span>
+    </div>
+  </div>
+
+
+  <!-- ── 1. Concept in Plain English ───────────────── -->
+  <div class="section">
+    <div class="section-label">Concept</div>
+    <h2>Getting a Vector Perpendicular to Two Others</h2>
+
+    <p>
+      The cross product takes two vectors in 3D space and produces a third vector that is
+      perpendicular to both of them. Unlike the dot product, which collapses two vectors into
+      a single number, the cross product gives you back a vector. That vector points in the
+      direction your right thumb points when your fingers curl from the first vector toward
+      the second.
+    </p>
+
+    <div class="callout">
+      <strong>The core idea:</strong> the cross product \(\mathbf{v} \times \mathbf{w}\) produces
+      a vector perpendicular to both \(\mathbf{v}\) and \(\mathbf{w}\), with length equal to the
+      area of the parallelogram they span.
+    </div>
+
+    <h3>The 2D version: a signed area</h3>
+    <p>
+      In 2D, the cross product is not a vector but a scalar: the determinant of the matrix whose
+      columns are the two vectors. This gives you the signed area of the parallelogram formed by
+      the two vectors. Positive means the second vector is counterclockwise from the first.
+      Negative means it is clockwise. Zero means the vectors are parallel and span no area at all.
+    </p>
+
+    <h3>The 3D version: a new vector</h3>
+    <p>
+      In 3D, the cross product is computed using a determinant-style expansion with the standard
+      basis vectors \(\hat{i}\), \(\hat{j}\), \(\hat{k}\) placed in the first row. The result is
+      a vector orthogonal to both inputs. Its length equals the area of the parallelogram spanned
+      by the two input vectors, which means it gets larger when the inputs are more perpendicular
+      and shrinks toward zero when they point in the same direction.
+    </p>
+
+    <h3>Right-hand rule and orientation</h3>
+    <p>
+      The direction of the cross product follows the right-hand rule. Point your fingers along
+      \(\mathbf{v}\), curl them toward \(\mathbf{w}\), and your thumb points in the direction of
+      \(\mathbf{v} \times \mathbf{w}\). This makes the cross product sensitive to order:
+      \(\mathbf{v} \times \mathbf{w} = -(\mathbf{w} \times \mathbf{v})\).
+    </p>
+  </div>
+
+
+  <!-- ── 2. Key Formulas ────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Formulas</div>
+    <h2>Key Formulas</h2>
+
+    <div class="formula-grid">
+
+      <div class="formula-card">
+        <div class="formula-name">2D cross product (signed area)</div>
+        <div class="formula-math">
+          \[
+          \mathbf{v} \times \mathbf{w} = \det\begin{bmatrix} v_1 & w_1 \\ v_2 & w_2 \end{bmatrix} = v_1 w_2 - v_2 w_1
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">3D cross product</div>
+        <div class="formula-math">
+          \[
+          \mathbf{v} \times \mathbf{w} = \begin{bmatrix} v_2 w_3 - v_3 w_2 \\ v_3 w_1 - v_1 w_3 \\ v_1 w_2 - v_2 w_1 \end{bmatrix}
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Length equals parallelogram area</div>
+        <div class="formula-math">
+          \[
+          \|\mathbf{v} \times \mathbf{w}\| = \|\mathbf{v}\| \, \|\mathbf{w}\| \sin\theta
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Anti-commutativity</div>
+        <div class="formula-math">
+          \[
+          \mathbf{v} \times \mathbf{w} = -(\mathbf{w} \times \mathbf{v})
+          \]
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── 3. Code Examples ───────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Code</div>
+    <h2>Code Examples</h2>
+    <p>
+      All code below is taken verbatim from <code style="font-family:var(--font-mono);font-size:0.85em;">lesson-10-cross-products.py</code>.
+    </p>
+
+    <!-- Part 1 -->
+    <h3>Part 1: 2D cross product</h3>
+    <p>
+      In 2D, the cross product is the determinant of the matrix formed by stacking the two
+      vectors as columns. The result is the signed area of their parallelogram.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-10-cross-products.py</span>
+      </div>
+      <pre><code><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+v <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">3</span>, <span class="num">1</span>])
+w <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">2</span>])
+
+<span class="co"># build the matrix with v as column 1 and w as column 2</span>
+matrix <span class="op">=</span> np.<span class="fn">column_stack</span>((v, w))
+
+<span class="co"># the cross product is the determinant</span>
+cross <span class="op">=</span> np.linalg.<span class="fn">det</span>(matrix)
+<span class="fn">print</span>(<span class="st">f"2D cross product: {cross}"</span>)
+<span class="fn">print</span>(<span class="st">f"Area of parallelogram: {abs(cross)}"</span>)
+
+<span class="co"># if positive, w is counterclockwise from v</span>
+<span class="co"># if negative, w is clockwise from v</span></code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>2D cross product: 5.000000000000001
+Area of parallelogram: 5.000000000000001</pre>
+    </div>
+
+    <!-- Part 2 -->
+    <h3>Part 2: 3D cross product</h3>
+    <p>
+      In 3D, <code style="font-family:var(--font-mono);font-size:0.85em;">np.cross</code> computes
+      the cross product vector directly. We verify it is perpendicular to both inputs by checking
+      that both dot products are zero.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-10-cross-products.py</span>
+      </div>
+      <pre><code>v <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">3</span>, <span class="num">1</span>, <span class="num">0</span>])
+w <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">2</span>, <span class="num">7</span>])
+
+<span class="co"># compute cross product</span>
+cross <span class="op">=</span> np.<span class="fn">cross</span>(v, w)
+
+<span class="fn">print</span>(<span class="st">f"Resulting Vector: {cross}"</span>)
+
+<span class="co"># length of the cross product vector = area of the parallelogram</span>
+<span class="fn">print</span>(<span class="st">f"Length (area): {np.linalg.norm(cross)}"</span>)
+
+<span class="co"># verify it is perpendicular to both v and w</span>
+<span class="co"># dot product with either should be zero</span>
+<span class="fn">print</span>(<span class="st">f"Perpendicular to v: {np.isclose(np.dot(cross, v), 0)}"</span>)
+<span class="fn">print</span>(<span class="st">f"Perpendicular to w: {np.isclose(np.dot(cross, w), 0)}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Resulting Vector: [  7 -21   5]
+Length (area): 22.693611435820433
+Perpendicular to v: True
+Perpendicular to w: True</pre>
+    </div>
+
+    <!-- Part 3 -->
+    <h3>Part 3: Properties</h3>
+    <p>
+      Perpendicular vectors produce the largest cross product. Nearly parallel vectors produce
+      almost nothing. Scaling one vector by a factor scales the cross product by the same factor.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-10-cross-products.py</span>
+      </div>
+      <pre><code><span class="co"># perpendicular vectors have larger cross product</span>
+v_perp1 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span>])
+v_perp2 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">0</span>, <span class="num">1</span>, <span class="num">0</span>])
+
+<span class="co"># similar direction vectors have smaller cross product</span>
+v_sim1 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span>])
+v_sim2 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">0.1</span>, <span class="num">0</span>])
+
+<span class="fn">print</span>(<span class="st">f"Perpendicular cross product length: {np.linalg.norm(np.cross(v_perp1, v_perp2))}"</span>)
+<span class="fn">print</span>(<span class="st">f"Similar direction cross product length: {np.linalg.norm(np.cross(v_sim1, v_sim2))}"</span>)
+
+<span class="co"># scaling one vector scales the cross product by the same factor</span>
+v <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span>])
+w <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">0</span>, <span class="num">1</span>, <span class="num">0</span>])
+
+original <span class="op">=</span> np.linalg.<span class="fn">norm</span>(np.<span class="fn">cross</span>(v, w))
+scaled   <span class="op">=</span> np.linalg.<span class="fn">norm</span>(np.<span class="fn">cross</span>(<span class="num">3</span> <span class="op">*</span> v, w))
+
+<span class="fn">print</span>(<span class="st">f"Original cross product length: {original}"</span>)
+<span class="fn">print</span>(<span class="st">f"Scaled by 3 cross product length: {scaled}"</span>)
+<span class="fn">print</span>(<span class="st">f"Is scaled version 3x original? {np.isclose(scaled, 3 * original)}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Perpendicular cross product length: 1.0
+Similar direction cross product length: 0.09999999999999999
+Original cross product length: 1.0
+Scaled by 3 cross product length: 3.0
+Is scaled version 3x original? True</pre>
+    </div>
+  </div>
+
+
+  <!-- ── 4. Connection to AI ────────────────────────── -->
+  <div class="section">
+    <div class="section-label">AI Connection</div>
+    <h2>How This Connects to AI</h2>
+
+    <div class="ai-connection">
+      <div class="ai-label">Why this matters for machine learning</div>
+
+      <p>
+        The cross product is less directly used in AI than the dot product, but the intuitions
+        behind it show up in important places. The key idea is that the cross product measures
+        how perpendicular two vectors are. Parallel vectors produce a cross product of zero.
+        Perpendicular vectors produce the maximum. This is the same intuition behind why
+        orthogonal weight matrices are useful in deep learning.
+      </p>
+
+      <p>
+        Orthogonal matrices have columns that are all mutually perpendicular unit vectors.
+        When you multiply by an orthogonal matrix, you rotate the space without stretching or
+        compressing anything. This preserves vector lengths and the angles between them. During
+        backpropagation, this means gradients flow cleanly without exploding or vanishing,
+        which is a serious problem in deep networks. Techniques like orthogonal initialization
+        and orthogonal regularization use this property to stabilize training.
+      </p>
+
+      <p>
+        The right-hand rule and orientation concepts from the cross product show up directly in
+        3D deep learning. Models like PointNet and its successors process raw point clouds for
+        tasks like 3D object detection in self-driving cars. These models operate on sets of
+        3D coordinates and need to reason about surface normals, orientations, and spatial
+        relationships. Surface normals are literally cross products: given two edges of a mesh
+        triangle, the normal is their cross product. Understanding orientation in 3D space is
+        fundamental to these systems.
+      </p>
+
+      <p>
+        More broadly, the idea that two perpendicular things produce zero and two aligned things
+        produce maximum runs throughout all of linear algebra. It is why orthogonal bases are so
+        useful for decomposing signals, why PCA finds directions that are perpendicular to each
+        other, and why attention heads in transformers can specialize without interfering with
+        each other when their weight matrices are approximately orthogonal.
+      </p>
+    </div>
+  </div>
+
+
+  <footer class="page-footer">
+    ML Math Foundations · Linear Algebra · Lesson 10: Cross Products
+  </footer>
+
+</main>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
