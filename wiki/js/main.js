@@ -28,6 +28,7 @@ function buildNav() {
       <li><a href="${la}dot-products.html">Lesson 9: Dot Products</a></li>
       <li><a href="${la}cross-products.html">Lesson 10: Cross Products</a></li>
       <li><a href="${la}eigenvalues-eigenvectors.html">Lesson 11: Eigenvalues and Eigenvectors</a></li>
+      <li><a href="${la}change-of-basis.html">Lesson 12: Change of Basis</a></li>
     </ul>
 
     <div class="nav-section">Calculus</div>

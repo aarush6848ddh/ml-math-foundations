@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 12: Change of Basis | ML Math Foundations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<!-- ── GitHub link ────────────────────────────────── -->
+<a href="https://github.com/aarush6848ddh/ml-math-foundations" target="_blank" rel="noopener" class="github-btn">
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  GitHub
+</a>
+
+<!-- ── Mobile menu button ─────────────────────────── -->
+<button id="menu-btn" class="menu-btn" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ── Sidebar ────────────────────────────────────── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-logo">
+    <a href="../index.html">
+      <div class="site-title">ML Math Foundations</div>
+      <div class="site-sub">A personal study wiki</div>
+    </a>
+  </div>
+
+  <nav></nav>
+</aside>
+
+<!-- ── Main content ───────────────────────────────── -->
+<main class="main">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span>›</span>
+      <a href="../index.html">Linear Algebra</a>
+      <span>›</span>
+      Change of Basis
+    </div>
+    <h1>Change of Basis</h1>
+    <div class="subtitle">From 3Blue1Brown, Essence of Linear Algebra, Chapter 13</div>
+    <div class="page-meta">
+      <span class="tag tag-section">Linear Algebra</span>
+      <span class="tag tag-lesson">Lesson 12</span>
+    </div>
+  </div>
+
+
+  <!-- ── 1. Concept in Plain English ───────────────── -->
+  <div class="section">
+    <div class="section-label">Concept</div>
+    <h2>Every Coordinate System Is Just a Choice</h2>
+
+    <p>
+      When you write a vector as \([3, 7]\), you are implicitly saying "3 steps along the
+      x-axis and 7 steps along the y-axis." But that is just one choice of coordinate system.
+      Someone else could describe the exact same point in space using completely different
+      basis vectors, and they would write different numbers. Change of basis is the tool
+      for translating between those descriptions.
+    </p>
+
+    <div class="callout">
+      <strong>The core idea:</strong> if someone else's basis vectors are the columns of matrix
+      \(B\), then multiplying by \(B\) converts their coordinates into yours. Multiplying by
+      \(B^{-1}\) converts your coordinates into theirs.
+    </div>
+
+    <h3>The change of basis matrix</h3>
+    <p>
+      You build the change of basis matrix by stacking the alternative basis vectors as columns.
+      If Jennifer uses basis vectors \(\mathbf{b}_1\) and \(\mathbf{b}_2\), then
+      \(B = [\mathbf{b}_1 \mid \mathbf{b}_2]\). When you compute \(B\mathbf{v}\), you are
+      asking: if Jennifer says the vector is \(\mathbf{v}\), where does that actually land
+      in our coordinate system? The columns of \(B\) tell you where Jennifer's basis vectors
+      live in your world, so matrix-vector multiplication does the conversion automatically.
+    </p>
+
+    <h3>Going the other way</h3>
+    <p>
+      To go from your coordinates into Jennifer's, you use the inverse: \(B^{-1}\mathbf{v}\).
+      The inverse undoes the change of basis. It asks: what combination of Jennifer's basis
+      vectors would produce this vector?
+    </p>
+
+    <h3>Translating a transformation</h3>
+    <p>
+      If you have a transformation matrix \(M\) written in your coordinate system, and you
+      want to express that same transformation in Jennifer's system, the formula is
+      \(B^{-1} M B\). This pattern appears constantly in linear algebra. You first translate
+      into your system (\(B\)), apply the transformation (\(M\)), then translate back
+      (\(B^{-1}\)). The result is a matrix that does the same geometric thing but is expressed
+      in Jennifer's language.
+    </p>
+  </div>
+
+
+  <!-- ── 2. Key Formulas ────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Formulas</div>
+    <h2>Key Formulas</h2>
+
+    <div class="formula-grid">
+
+      <div class="formula-card">
+        <div class="formula-name">Change of basis matrix</div>
+        <div class="formula-math">
+          \[
+          B = \begin{bmatrix} \mathbf{b}_1 & \mathbf{b}_2 \end{bmatrix}
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Convert their coords to ours</div>
+        <div class="formula-math">
+          \[
+          \mathbf{v}_\text{ours} = B \, \mathbf{v}_\text{theirs}
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Convert our coords to theirs</div>
+        <div class="formula-math">
+          \[
+          \mathbf{v}_\text{theirs} = B^{-1} \mathbf{v}_\text{ours}
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Transformation in their coordinate system</div>
+        <div class="formula-math">
+          \[
+          M_\text{theirs} = B^{-1} M B
+          \]
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── 3. Code Examples ───────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Code</div>
+    <h2>Code Examples</h2>
+    <p>
+      All code below is taken verbatim from <code style="font-family:var(--font-mono);font-size:0.85em;">lesson-12-change-of-basis.py</code>.
+    </p>
+
+    <!-- Part 1 -->
+    <h3>Part 1: Change of basis matrix</h3>
+    <p>
+      Jennifer's basis vectors become the columns of the change of basis matrix. Multiplying by
+      it converts her coordinates into ours.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-12-change-of-basis.py</span>
+      </div>
+      <pre><code><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="co"># Jennifer's basis vectors in our coordinate system</span>
+b1 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">2</span>, <span class="num">1</span>])
+b2 <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">-1</span>, <span class="num">1</span>])
+
+<span class="co"># change of basis matrix — columns are Jennifer's basis vectors</span>
+change_of_basis <span class="op">=</span> np.<span class="fn">column_stack</span>((b1, b2))
+
+<span class="co"># Jennifer describes a vector with these coordinates in her system</span>
+jennifer_coords <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">1</span>, <span class="num">6</span>])
+
+<span class="co"># convert to our coordinate system</span>
+our_coords <span class="op">=</span> change_of_basis <span class="op">@</span> jennifer_coords
+<span class="fn">print</span>(<span class="st">f"Jennifer's coords: {jennifer_coords}"</span>)
+<span class="fn">print</span>(<span class="st">f"Our coords: {our_coords}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Jennifer's coords: [1 6]
+Our coords: [-4  7]</pre>
+    </div>
+
+    <!-- Part 2 -->
+    <h3>Part 2: Going the other way</h3>
+    <p>
+      The inverse of the change of basis matrix converts our coordinates into Jennifer's system.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-12-change-of-basis.py</span>
+      </div>
+      <pre><code><span class="co"># a vector in our system</span>
+our_vector <span class="op">=</span> np.<span class="fn">array</span>([<span class="num">3</span>, <span class="num">7</span>])
+
+<span class="co"># convert to Jennifer's system using the inverse</span>
+inverse_cob <span class="op">=</span> np.linalg.<span class="fn">inv</span>(change_of_basis)
+jennifer_vector <span class="op">=</span> inverse_cob <span class="op">@</span> our_vector
+<span class="fn">print</span>(<span class="st">f"Our vector: {our_vector}"</span>)
+<span class="fn">print</span>(<span class="st">f"Jennifer's vector: {jennifer_vector}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Our vector: [3 7]
+Jennifer's vector: [3.33333333 3.66666667]</pre>
+    </div>
+
+    <!-- Part 3 -->
+    <h3>Part 3: Translating a transformation</h3>
+    <p>
+      To express a transformation in Jennifer's coordinate system, use the formula
+      \(B^{-1} M B\). The result is a matrix that describes the same geometric action
+      but written in her language.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-12-change-of-basis.py</span>
+      </div>
+      <pre><code><span class="co"># a reflection across the y-axis in our system</span>
+rotation <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">-1</span>, <span class="num">0</span>],
+    [<span class="num">0</span>,  <span class="num">1</span>]
+])
+
+<span class="co"># express the transformation in Jennifer's coordinate system</span>
+<span class="co"># formula: inv(change_of_basis) @ rotation @ change_of_basis</span>
+jennifer_rotation <span class="op">=</span> np.linalg.<span class="fn">inv</span>(change_of_basis) <span class="op">@</span> rotation <span class="op">@</span> change_of_basis
+<span class="fn">print</span>(<span class="st">f"Rotation in our system: {rotation}"</span>)
+<span class="fn">print</span>(<span class="st">f"Rotation in Jennifer's system: {jennifer_rotation}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Rotation in our system: [[-1  0]
+ [ 0  1]]
+Rotation in Jennifer's system: [[-0.33333333  0.66666667]
+ [ 1.33333333  0.33333333]]</pre>
+    </div>
+  </div>
+
+
+  <!-- ── 4. Connection to AI ────────────────────────── -->
+  <div class="section">
+    <div class="section-label">AI Connection</div>
+    <h2>How This Connects to AI</h2>
+
+    <div class="ai-connection">
+      <div class="ai-label">Why this matters for machine learning</div>
+
+      <p>
+        Change of basis is exactly what happens inside transformer attention. When attention
+        computes the query, key, and value matrices, it is projecting the input token embeddings
+        into three different coordinate systems simultaneously. The weight matrices
+        \(W_Q\), \(W_K\), and \(W_V\) are change of basis operations. They take the raw
+        embedding and re-express it in a coordinate system where similarity comparisons
+        are more meaningful.
+      </p>
+
+      <p>
+        Multi-head attention takes this further. Each attention head uses its own set of
+        projection matrices, which means each head operates in its own coordinate system.
+        One head might project into a subspace where grammatical relationships are easiest
+        to see. Another might find a subspace where semantic similarity is clearest. The model
+        learns these basis changes during training, discovering which coordinate systems make
+        patterns in language most visible.
+      </p>
+
+      <p>
+        The formula \(B^{-1} M B\) also appears in how researchers analyze what transformers
+        have learned. If you want to understand a weight matrix \(M\) in a more interpretable
+        coordinate system, you can apply a change of basis to rotate it into a frame where
+        its structure is clearer. This is the idea behind techniques like probing classifiers
+        and representation analysis in interpretability research.
+      </p>
+
+      <p>
+        More broadly, any time a neural network applies a linear layer, it is changing the
+        coordinate system of its input. The entire forward pass of a transformer is a sequence
+        of coordinate changes, each learned to make the next operation easier. Understanding
+        change of basis gives you the geometric intuition for why stacking linear layers with
+        nonlinearities between them is such a powerful way to process information.
+      </p>
+    </div>
+  </div>
+
+
+  <footer class="page-footer">
+    ML Math Foundations · Linear Algebra · Lesson 12: Change of Basis
+  </footer>
+
+</main>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
