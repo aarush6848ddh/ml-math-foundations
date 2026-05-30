@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 11: Eigenvalues and Eigenvectors | ML Math Foundations</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/dreampulse/computer-modern-web-font@master/fonts.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+
+  <!-- MathJax for LaTeX rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+      },
+      options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+<!-- ── GitHub link ────────────────────────────────── -->
+<a href="https://github.com/aarush6848ddh/ml-math-foundations" target="_blank" rel="noopener" class="github-btn">
+  <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  GitHub
+</a>
+
+<!-- ── Mobile menu button ─────────────────────────── -->
+<button id="menu-btn" class="menu-btn" aria-label="Open navigation">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ── Sidebar ────────────────────────────────────── -->
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-logo">
+    <a href="../index.html">
+      <div class="site-title">ML Math Foundations</div>
+      <div class="site-sub">A personal study wiki</div>
+    </a>
+  </div>
+
+  <nav></nav>
+</aside>
+
+<!-- ── Main content ───────────────────────────────── -->
+<main class="main">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="../index.html">Home</a>
+      <span>›</span>
+      <a href="../index.html">Linear Algebra</a>
+      <span>›</span>
+      Eigenvalues and Eigenvectors
+    </div>
+    <h1>Eigenvalues and Eigenvectors</h1>
+    <div class="subtitle">From 3Blue1Brown, Essence of Linear Algebra, Chapter 14</div>
+    <div class="page-meta">
+      <span class="tag tag-section">Linear Algebra</span>
+      <span class="tag tag-lesson">Lesson 11</span>
+    </div>
+  </div>
+
+
+  <!-- ── 1. Concept in Plain English ───────────────── -->
+  <div class="section">
+    <div class="section-label">Concept</div>
+    <h2>Vectors That Do Not Get Knocked Off Their Span</h2>
+
+    <p>
+      Most vectors change direction when you apply a matrix transformation. An eigenvector is special:
+      it lands back on its own span. The transformation only stretches or squishes it along its
+      original line. It never rotates. The eigenvalue is the scalar that tells you by how much
+      it was stretched or squished.
+    </p>
+
+    <div class="callout">
+      <strong>The core idea:</strong> a vector \(\mathbf{v}\) is an eigenvector of matrix \(A\) if
+      \(A\mathbf{v} = \lambda\mathbf{v}\) for some scalar \(\lambda\). The scalar \(\lambda\) is
+      the corresponding eigenvalue.
+    </div>
+
+    <h3>What the eigenvalue tells you</h3>
+    <p>
+      A positive eigenvalue greater than 1 means the eigenvector gets stretched in its direction.
+      A value between 0 and 1 means it gets compressed. A negative eigenvalue means it gets
+      flipped and possibly scaled. An eigenvalue of exactly 1 means the eigenvector is completely
+      unchanged by the transformation.
+    </p>
+
+    <h3>Diagonal matrices are the easy case</h3>
+    <p>
+      For a diagonal matrix, the standard basis vectors are all eigenvectors and the eigenvalues
+      are just the diagonal entries. This makes diagonal matrices very easy to work with. Raising
+      a diagonal matrix to a large power is trivial: you just raise each diagonal entry to that
+      power independently. For a general matrix, you would need to do repeated matrix multiplication.
+    </p>
+
+    <h3>When there are no real eigenvectors</h3>
+    <p>
+      A pure rotation matrix has no real eigenvectors. Every vector gets rotated off its span,
+      so no real vector satisfies the eigenvector equation. The eigenvalues turn out to be complex
+      numbers. This is not a failure of the concept. It just means the transformation has no
+      preferred real direction that it leaves unchanged.
+    </p>
+  </div>
+
+
+  <!-- ── 2. Key Formulas ────────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Formulas</div>
+    <h2>Key Formulas</h2>
+
+    <div class="formula-grid">
+
+      <div class="formula-card">
+        <div class="formula-name">Eigenvector equation</div>
+        <div class="formula-math">
+          \[
+          A\mathbf{v} = \lambda\mathbf{v}
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Characteristic equation (find eigenvalues)</div>
+        <div class="formula-math">
+          \[
+          \det(A - \lambda I) = 0
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Diagonal matrix power</div>
+        <div class="formula-math">
+          \[
+          \begin{bmatrix} d_1 & 0 \\ 0 & d_2 \end{bmatrix}^n =
+          \begin{bmatrix} d_1^n & 0 \\ 0 & d_2^n \end{bmatrix}
+          \]
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-name">Eigenvector verification</div>
+        <div class="formula-math">
+          \[
+          A\mathbf{v} - \lambda\mathbf{v} = \mathbf{0}
+          \]
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ── 3. Code Examples ───────────────────────────── -->
+  <div class="section">
+    <div class="section-label">Code</div>
+    <h2>Code Examples</h2>
+    <p>
+      All code below is taken verbatim from <code style="font-family:var(--font-mono);font-size:0.85em;">lesson-11-eigenvalues-eigenvectors.py</code>.
+    </p>
+
+    <!-- Part 1 -->
+    <h3>Part 1: Finding eigenvalues and eigenvectors</h3>
+    <p>
+      <code style="font-family:var(--font-mono);font-size:0.85em;">np.linalg.eig</code> returns
+      the eigenvalues as a 1D array and the eigenvectors as columns of a 2D array.
+      <code style="font-family:var(--font-mono);font-size:0.85em;">vec[:, 0]</code> is the first
+      eigenvector, <code style="font-family:var(--font-mono);font-size:0.85em;">vec[:, 1]</code>
+      is the second.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-11-eigenvalues-eigenvectors.py</span>
+      </div>
+      <pre><code><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+v <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">1</span>, <span class="num">3</span>],
+    [<span class="num">5</span>, <span class="num">7</span>]
+])
+
+<span class="co"># val contains the eigenvalues: the scalar by which each eigenvector gets scaled</span>
+<span class="co"># vec contains the eigenvectors as columns — vec[:, 0] is the first eigenvector</span>
+val, vec <span class="op">=</span> np.linalg.<span class="fn">eig</span>(v)
+
+<span class="fn">print</span>(<span class="st">f"Eigenvalues of v: {val}"</span>)
+<span class="fn">print</span>(<span class="st">f"Eigenvectors of v: {vec}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Eigenvalues of v: [ 8.89897949 -0.89897949]
+Eigenvectors of v: [[ 0.35506802 -0.84515425]
+ [ 0.93498927  0.53452248]]</pre>
+    </div>
+
+    <!-- Part 2 -->
+    <h3>Part 2: Verifying the eigenvector property</h3>
+    <p>
+      For each eigenvector, multiplying the matrix by the eigenvector must equal multiplying
+      the eigenvector by its eigenvalue. This confirms the vector only gets scaled, never rotated.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-11-eigenvalues-eigenvectors.py</span>
+      </div>
+      <pre><code><span class="co"># for each eigenvector verify that A @ eigenvector = eigenvalue * eigenvector</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(val)):
+    lhs <span class="op">=</span> v <span class="op">@</span> vec[:, i]       <span class="co"># matrix times eigenvector</span>
+    rhs <span class="op">=</span> val[i] <span class="op">*</span> vec[:, i]  <span class="co"># eigenvalue * eigenvector</span>
+    <span class="fn">print</span>(<span class="st">f"A @ eigenvector {i}: {lhs}"</span>)
+    <span class="fn">print</span>(<span class="st">f"lambda * eigenvector {i}: {rhs}"</span>)
+    <span class="fn">print</span>(<span class="st">f"Are they equal? {np.allclose(lhs, rhs)}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>A @ eigenvector 0: [3.16007272 8.32061399]
+lambda * eigenvector 0: [3.16007272 8.32061399]
+Are they equal? True
+
+A @ eigenvector 1: [ 0.75969444 -0.48082613]
+lambda * eigenvector 1: [ 0.75969444 -0.48082613]
+Are they equal? True</pre>
+    </div>
+
+    <!-- Part 3 -->
+    <h3>Part 3: Diagonal matrices</h3>
+    <p>
+      A diagonal matrix has eigenvalues equal to its diagonal entries and the standard basis
+      vectors as eigenvectors. Raising it to a large power is trivial: each diagonal entry
+      is raised independently.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-11-eigenvalues-eigenvectors.py</span>
+      </div>
+      <pre><code>diagonal <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">3</span>, <span class="num">0</span>],
+    [<span class="num">0</span>, <span class="num">5</span>]
+])
+
+val_d, vec_d <span class="op">=</span> np.linalg.<span class="fn">eig</span>(diagonal)
+<span class="fn">print</span>(<span class="st">f"Eigenvalues of diagonal matrix: {val_d}"</span>)
+
+<span class="co"># computing the 100th power of a diagonal matrix is trivial</span>
+<span class="co"># you just raise each diagonal entry to the 100th power</span>
+power_100 <span class="op">=</span> np.linalg.<span class="fn">matrix_power</span>(diagonal, <span class="num">100</span>)
+<span class="fn">print</span>(<span class="st">f"diagonal^100 top-left entry: {power_100[0][0]}"</span>)
+<span class="fn">print</span>(<span class="st">f"3^100 = {3**100}"</span>)
+<span class="fn">print</span>(<span class="st">f"Are they equal? {power_100[0][0] == 3**100}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Eigenvalues of diagonal matrix: [3. 5.]
+diagonal^100 top-left entry: 515377520732011331036461129765621272702107522001
+3^100 = 515377520732011331036461129765621272702107522001
+Are they equal? True</pre>
+    </div>
+
+    <!-- Part 4 -->
+    <h3>Part 4: Rotation has no real eigenvectors</h3>
+    <p>
+      A 90-degree rotation matrix rotates every vector off its span. No real vector satisfies
+      the eigenvector equation. The eigenvalues come back as complex numbers.
+    </p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python</span>
+        <span class="code-title">lesson-11-eigenvalues-eigenvectors.py</span>
+      </div>
+      <pre><code>rotation <span class="op">=</span> np.<span class="fn">array</span>([
+    [<span class="num">0</span>, <span class="num">-1</span>],
+    [<span class="num">1</span>,  <span class="num">0</span>]
+])
+
+val_r, vec_r <span class="op">=</span> np.linalg.<span class="fn">eig</span>(rotation)
+<span class="fn">print</span>(<span class="st">f"Eigenvalues of rotation matrix: {val_r}"</span>)
+<span class="co"># eigenvalues will be complex numbers like 0+1j and 0-1j</span>
+<span class="co"># no real eigenvectors exist because every vector gets rotated off its span</span>
+<span class="fn">print</span>(<span class="st">f"Are eigenvalues complex? {np.iscomplex(val_r).any()}"</span>)</code></pre>
+    </div>
+    <div class="code-output">
+      <div class="code-output-label">Output</div>
+      <pre>Eigenvalues of rotation matrix: [0.+1.j 0.-1.j]
+Are eigenvalues complex? True</pre>
+    </div>
+  </div>
+
+
+  <!-- ── 4. Connection to AI ────────────────────────── -->
+  <div class="section">
+    <div class="section-label">AI Connection</div>
+    <h2>How This Connects to AI</h2>
+
+    <div class="ai-connection">
+      <div class="ai-label">Why this matters for machine learning</div>
+
+      <p>
+        Eigenvectors are the natural axes of a transformation. They are the directions in which
+        a matrix acts most cleanly. In machine learning, finding these natural axes is often
+        exactly what you want to do, and eigendecomposition is the tool that does it.
+      </p>
+
+      <p>
+        PCA (Principal Component Analysis) is built entirely on eigenvectors. Given a dataset,
+        you compute the covariance matrix and then find its eigenvectors. Each eigenvector is a
+        direction of variance in the data. The corresponding eigenvalue tells you how much
+        variance lies along that direction. By keeping only the top few eigenvectors (the ones
+        with the largest eigenvalues), you compress the data into its most important directions
+        while discarding the rest. This is how researchers visualize 512-dimensional word
+        embeddings in 2D: project onto the top two eigenvectors of the covariance matrix.
+      </p>
+
+      <p>
+        In transformer attention, the matrix \(QK^T\) has an eigenstructure that tells you which
+        directions in embedding space the model pays most attention to. The eigenvectors with the
+        largest eigenvalues represent the directions that get amplified most strongly during
+        attention. This is a useful lens for interpretability research.
+      </p>
+
+      <p>
+        Diagonal matrices show up directly in transformers as scaling operations. Layer
+        normalization scales each embedding dimension independently by a learned parameter,
+        which is exactly multiplication by a diagonal matrix. The learned scale vector is
+        essentially a set of eigenvalues for that scaling transformation.
+      </p>
+
+      <p>
+        The eigenvalue spectrum of a weight matrix also reveals a lot about training dynamics.
+        If the largest eigenvalue is much bigger than 1, multiplying through that matrix
+        repeatedly (as in a deep network) causes activations to explode. If all eigenvalues
+        are smaller than 1, they vanish. Techniques like spectral normalization constrain the
+        largest eigenvalue explicitly to stabilize training.
+      </p>
+    </div>
+  </div>
+
+
+  <footer class="page-footer">
+    ML Math Foundations · Linear Algebra · Lesson 11: Eigenvalues and Eigenvectors
+  </footer>
+
+</main>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
